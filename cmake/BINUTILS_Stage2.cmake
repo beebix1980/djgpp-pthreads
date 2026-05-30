@@ -33,7 +33,7 @@ ExternalProject_Add(BINUTILS_Stage2 DEPENDS PTHREAD_Stage2_Ninja
 		${SH_EXE} -c "'<SOURCE_DIR>/config.guess' | '${XARGS_EXE}' -I {} \
 			'<SOURCE_DIR>/configure' \
 				--build='{}' \
-				--host='{}' \
+				--host='{}'  \
 				--target='${DJGPP_TARGET_TRIPLET}' \
 				--prefix='${STAGE2_BINARY_DIR}' \
 				--disable-multilib \

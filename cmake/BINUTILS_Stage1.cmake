@@ -34,7 +34,7 @@ ExternalProject_Add(BINUTILS_Stage1
 		${SH_EXE} -c "'<SOURCE_DIR>/config.guess' | '${XARGS_EXE}' -I {} \
 			'<SOURCE_DIR>/configure' \
 				--build='{}' \
-				--host='{}' \
+				--host='{}'  \
 				--target='${DJGPP_TARGET_TRIPLET}' \
 				--prefix='${STAGE1_BINARY_DIR}' \
 				--disable-multilib \

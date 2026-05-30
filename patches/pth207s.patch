@@ -55,3 +55,17 @@ diff -Naur old/src/pth-2.0.7/pthread.h.in new/src/pth-2.0.7/pthread.h.in
  
  /*
   * More "special" POSIX stuff
+  */
+
+diff -Naur old/src/pth-2.0.7/configure new/src/pth-2.0.7/configure
+--- old/src/pth-2.0.7/configure	2006-06-08 19:54:02.000000000 +0200
++++ new/src/pth-2.0.7/configure	2026-05-29 18:00:00.000000000 +0200
+@@ -22171,7 +22171,7 @@
+ 
+ echo "$as_me:$LINENO: checking for useful pipe(3p) facility" >&5
+ echo $ECHO_N "checking for useful pipe(3p) facility... $ECHO_C" >&6
+-cross_compile=yes
++cross_compiling=yes
+ if test "$cross_compiling" = yes; then
+   pipemethod="real"
+ msg="(cross-compiling) pipe() exists; assuming it works"

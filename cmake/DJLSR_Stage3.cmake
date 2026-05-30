@@ -32,8 +32,8 @@ if(HAVE_WATT32)
 	set(watt32_djlsr_patch_stage3
 		&& ${CMAKE_COMMAND} -E make_directory "<SOURCE_DIR>/watt32/src/build/djgpp" &&
 		${CMAKE_COMMAND} -E env "PATH=${STAGE2_BINARY_DIR}/bin:$ENV{PATH}" --
-		${PATCH_EXE} -d watt32 -p1 < "${PATCHES_DIRECTORY}/watt32s.patch" &&
-		${PATCH_EXE} -d watt32 -p1 < "${PATCHES_DIRECTORY}/watt32s_stdbool.patch" &&
+		${PATCH_EXE} -f -N -d watt32 -p1 < "${PATCHES_DIRECTORY}/watt32s.patch" &&
+		${PATCH_EXE} -f -N -d watt32 -p1 < "${PATCHES_DIRECTORY}/watt32s_stdbool.patch" &&
 		${SED_EXE} -i "s/\\(.*BIN_PREFIX =\\)/\\1 ${DJGPP_TARGET_TRIPLET}-/" watt32/src/makefile.all &&
 		${SED_EXE} -i "s/\\(-Wno-strict-aliasing\\)/${DJGPP_LIBC_OPTIMIZE_2} \\1/g" watt32/src/makefile.all &&
 		${SH_EXE} -c
@@ -132,19 +132,21 @@ ExternalProject_Add(DJLSR_Stage3 DEPENDS GCC_Stage2_Ninja
 
 	PATCH_COMMAND
 		# Apply our patches
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc142-pthreads.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc142-required.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc142-optional.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-timespec.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-stdbool.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-infinity.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-sortsyms.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-dxe3gen.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-libm.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-texi2ps.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-npxsetup.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-go32.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-redir.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-timespec.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc142-pthreads.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc142-required.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc142-optional.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-stdbool.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-infinity.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-sortsyms.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-dxe3gen.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/dxe3gen-fix-unquoted-macros.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-libm.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc151-texi2ps.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-npxsetup.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-go32.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-redir.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/dtoutod.patch" &&
 
 		# Clean the build tree
 		${MAKE_EXE} -C "<SOURCE_DIR>/src" clean &&
@@ -230,20 +232,27 @@ ExternalProject_Add(DJLSR_Stage3 DEPENDS GCC_Stage2_Ninja
 			-d "<INSTALL_DIR>/${DJGPP_TARGET_TRIPLET}" &&
 
 		# Install tools for the host
-		${CMAKE_COMMAND} -E copy
-			"<SOURCE_DIR>/hostbin/bin2h.exe" "<INSTALL_DIR>/bin/bin2h" &&
-		${CMAKE_COMMAND} -E copy
-			"<SOURCE_DIR>/hostbin/djasm.exe" "<INSTALL_DIR>/bin/djasm" &&
-		${CMAKE_COMMAND} -E copy
-			"<SOURCE_DIR>/hostbin/dxegen.exe" "<INSTALL_DIR>/bin/dxegen" &&
-		${CMAKE_COMMAND} -E copy
-			"<SOURCE_DIR>/hostbin/stubedit.exe" "<INSTALL_DIR>/bin/stubedit" &&
-		${CMAKE_COMMAND} -E copy
-			"<SOURCE_DIR>/hostbin/stubify.exe" "<INSTALL_DIR>/bin/stubify" &&
-		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
-			-o "<INSTALL_DIR>/bin/dtou" "<SOURCE_DIR>/src/utils/dtou.c" &&
-		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
-			-o "<INSTALL_DIR>/bin/utod" "<SOURCE_DIR>/src/utils/utod.c"
+		${CMAKE_C_COMPILER} -O3 -static -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/bin2h${CMAKE_EXECUTABLE_SUFFIX}" "<SOURCE_DIR>/src/utils/bin2h.c" &&
+		${CMAKE_C_COMPILER} -O3 -static -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/djasm${CMAKE_EXECUTABLE_SUFFIX}" "<SOURCE_DIR>/src/djasm/djasm.c" &&
+		${CMAKE_C_COMPILER} -O3 -static -Xlinker --strip-all -DNDEBUG
+			"-DDXE_LD=\"${DJGPP_TARGET_TRIPLET}-ld\""
+			"-DDXE_CC=\"${DJGPP_TARGET_TRIPLET}-gcc\""
+			"-DDXE_AR=\"${DJGPP_TARGET_TRIPLET}-ar\""
+			"-DDXE_AS=\"${DJGPP_TARGET_TRIPLET}-as\""
+			-o "<INSTALL_DIR>/bin/dxegen${CMAKE_EXECUTABLE_SUFFIX}"
+			"<SOURCE_DIR>/src/dxe/dxe3gen.c" &&
+		${CMAKE_C_COMPILER} -O3 -static -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/stubedit${CMAKE_EXECUTABLE_SUFFIX}"
+			"<SOURCE_DIR>/src/stub/stubedit.c" &&
+		${CMAKE_C_COMPILER} -O3 -static -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/stubify${CMAKE_EXECUTABLE_SUFFIX}"
+			"<SOURCE_DIR>/src/stub/stubify.c" &&
+		${CMAKE_C_COMPILER} -O3 -static -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/dtou${CMAKE_EXECUTABLE_SUFFIX}" "<SOURCE_DIR>/src/utils/dtou.c" &&
+		${CMAKE_C_COMPILER} -O3 -static -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/utod${CMAKE_EXECUTABLE_SUFFIX}" "<SOURCE_DIR>/src/utils/utod.c"
 
 	BUILD_BYPRODUCTS
 		"${DJLSR_STAGE3_BYPRODUCTS}"

@@ -73,7 +73,8 @@ ExternalProject_Add(PTHREAD_Stage3 DEPENDS PTHSOCK_Stage3_Ninja
 	#    (use -std=gnu... instead of -std=c... if they're needed).
 	#    Add a #ifndef __STRICT_ANSI__ clause to pthread.h where appropriate.
 	PATCH_COMMAND
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/pth207s.patch"
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/pth207s.patch" &&
+		${SED_EXE} -i "s/cross_compiling=no/cross_compiling=yes/g" "<SOURCE_DIR><SOURCE_SUBDIR>/configure"
 
 	CONFIGURE_COMMAND
 		# Ninja: Ensure that stage 2 binaries and stage 3 libsocket are installed before this point.

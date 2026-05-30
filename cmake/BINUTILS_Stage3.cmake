@@ -44,23 +44,21 @@ ExternalProject_Add(BINUTILS_Stage3 DEPENDS PTHREAD_Stage3_Ninja
 
 	PATCH_COMMAND
 		# Apply patch to increase segment aligment to 64 bytes.
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/bnu244-coff_section_alignment.patch"
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/bnu244-coff_section_alignment.patch"
 
 	CONFIGURE_COMMAND
+		${CMAKE_COMMAND} -E env LDFLAGS=-static --
 		${SH_EXE} -c "'<SOURCE_DIR>/config.guess' | '${XARGS_EXE}' -I {}\
 			'<SOURCE_DIR>/configure'\
 				--build='{}'\
-				--host='{}'\
+				--host='${DJGPP_HOST_TRIPLET}' \
 				--target='${DJGPP_TARGET_TRIPLET}'\
 				--prefix='${CMAKE_INSTALL_PREFIX}'\
 				--with-sysroot='${STAGE3_BINARY_DIR}'\
 				--with-build-sysroot='${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/${DJGPP_TARGET_TRIPLET}'\
 				--with-gcc-major-version-only\
-				--with-system-zlib\
 				--enable-vtable-verify\
 				--enable-year2038\
-				--enable-host-pie\
-				--enable-host-shared\
 				--disable-werror\
 				--enable-libstdcxx\
 				--disable-libada\

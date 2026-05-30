@@ -30,6 +30,14 @@ function(simple_download filename url)
 	message(FATAL_ERROR "\nFailed to download ${filename} from ${url} (${reason})\n")
 endfunction()
 
+if(EXISTS "${FILENAME}")
+	file(SIZE "${FILENAME}" _file_size)
+	if(_file_size GREATER 0)
+		message(STATUS "File already exists and is non-empty: ${FILENAME} (skipping download)")
+		return()
+	endif()
+endif()
+
 simple_download("${FILENAME}" "${URL}")
 
 # ex:set ts=2

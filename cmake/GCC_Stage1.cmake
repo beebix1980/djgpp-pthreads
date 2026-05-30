@@ -45,7 +45,7 @@ ExternalProject_Add(GCC_Stage1 DEPENDS DJCRX_Stage1_Ninja
 				'<SOURCE_DIR>/configure' \
 					--prefix='${STAGE1_BINARY_DIR}' \
 					--build='{}' \
-					--host='{}' \
+					--host='{}'  \
 					--target='${DJGPP_TARGET_TRIPLET}' \
 					--enable-checking=release \
 					--with-gcc-major-version-only \

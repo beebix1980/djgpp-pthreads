@@ -50,9 +50,9 @@ ExternalProject_Add(DJCRX_Stage1 DEPENDS BINUTILS_Stage1_Ninja
 		${CMAKE_COMMAND} -E copy_directory
 			"<SOURCE_DIR>/lib" "<INSTALL_DIR>/${DJGPP_TARGET_TRIPLET}/lib" &&
 		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
-			"<SOURCE_DIR>/src/stub/stubify.c" -o "<INSTALL_DIR>/bin/stubify" &&
+			"<SOURCE_DIR>/src/stub/stubify.c" -o "<INSTALL_DIR>/bin/stubify${CMAKE_EXECUTABLE_SUFFIX}" &&
 		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
-			"<SOURCE_DIR>/src/stub/stubedit.c" -o "<INSTALL_DIR>/bin/stubedit"
+			"<SOURCE_DIR>/src/stub/stubedit.c" -o "<INSTALL_DIR>/bin/stubedit${CMAKE_EXECUTABLE_SUFFIX}"
 
 	BUILD_BYPRODUCTS
 		"${DJCRX_STAGE1_BYPRODUCTS}"

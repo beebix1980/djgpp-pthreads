@@ -1,0 +1,30 @@
+diff -Naur old/src/utils/dtou.c new/src/utils/dtou.c
+--- old/src/utils/dtou.c	2015-05-02 06:32:38.000000000 +0200
++++ new/src/utils/dtou.c	2026-05-29 18:00:00.000000000 +0200
+@@ -12,6 +12,12 @@
+ #include <unistd.h>
+ #include <utime.h>
+ 
++#ifdef _WIN32
++#define pathconf(path, name) 255
++#define _PC_NAME_MAX 0
++#define chown(path, owner, group) 0
++#endif
++
+ #ifndef O_BINARY
+ #define O_BINARY 0
+ #endif
+diff -Naur old/src/utils/utod.c new/src/utils/utod.c
+--- old/src/utils/utod.c	2015-05-02 06:32:38.000000000 +0200
++++ new/src/utils/utod.c	2026-05-29 18:00:00.000000000 +0200
+@@ -13,6 +13,10 @@
+ #include <unistd.h>
+ #include <utime.h>
+ 
++#ifdef _WIN32
++#define chown(path, owner, group) 0
++#endif
++
+ #ifndef O_BINARY
+ #define O_BINARY 0
+ #endif

@@ -51,12 +51,15 @@ ExternalProject_Add(GCC_Stage3 DEPENDS BINUTILS_Stage3_Ninja
 			"Enter the Ninja: ${PTHREAD_STAGE3_BYPRODUCTS}" &&
 
 		# Apply patches
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/gcc-14.2.0.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/gcc151-max_ofile_alignment.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/gcc151-limits.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/gcc151-putwc.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/gcc151-pth207.patch" &&
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/gcc152-ops-common.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/gcc-14.2.0.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/gcc151-max_ofile_alignment.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/gcc151-limits.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/gcc151-putwc.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/gcc151-pth207.patch" &&
+		${PATCH_EXE} -f -N -p1 < "${PATCHES_DIRECTORY}/gcc152-ops-common.patch" &&
+
+		# Download prerequisites
+		${SH_EXE} ./contrib/download_prerequisites --no-isl &&
 
 		# Make a backup of pthread.h
 		${CMAKE_COMMAND} -E make_directory "<TMP_DIR>" &&
@@ -71,7 +74,7 @@ ExternalProject_Add(GCC_Stage3 DEPENDS BINUTILS_Stage3_Ninja
 			"${PTHSOCK_STAGE3_BYPRODUCTS} ${PTHREAD_STAGE3_BYPRODUCTS}" &&
 
 		# Configure
-		${CMAKE_COMMAND} -E env "PATH=${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/bin:$ENV{PATH}" --
+		${CMAKE_COMMAND} -E env "PATH=${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/bin:$ENV{PATH}" "CONFIG_SITE=${CMAKE_BINARY_DIR}/config.site" LDFLAGS=-static BOOT_LDFLAGS=-static --
 		${SH_EXE} -c "'<SOURCE_DIR>/config.guess' | '${XARGS_EXE}' -I {}\
 				'<SOURCE_DIR>/configure'\
 					--prefix='${CMAKE_INSTALL_PREFIX}'\
@@ -79,7 +82,7 @@ ExternalProject_Add(GCC_Stage3 DEPENDS BINUTILS_Stage3_Ninja
 					--with-build-sysroot='${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/${DJGPP_TARGET_TRIPLET}'\
 					--with-native-system-header-dir='/include'\
 					--build='{}'\
-					--host='{}'\
+					--host='${DJGPP_HOST_TRIPLET}' \
 					--target='${DJGPP_TARGET_TRIPLET}'\
 					--enable-checking=release\
 					--with-gcc-major-version-only\
@@ -91,9 +94,6 @@ ExternalProject_Add(GCC_Stage3 DEPENDS BINUTILS_Stage3_Ninja
 					--enable-libstdcxx-filesystem-ts\
 					--enable-year2038\
 					--enable-vtable-verify\
-					--with-system-zlib\
-					--enable-host-pie\
-					--enable-host-shared\
 					--disable-nls\
 					--disable-libstdcxx-pch\
 					--enable-cld\
@@ -115,7 +115,7 @@ ExternalProject_Add(GCC_Stage3 DEPENDS BINUTILS_Stage3_Ninja
 	  	"${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/${DJGPP_TARGET_TRIPLET}/include/pthread.h" &&
 
 	  # Build gcc
-		${CMAKE_COMMAND} -E env "PATH=${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/bin:$ENV{PATH}" --
+		${CMAKE_COMMAND} -E env "PATH=${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/bin:$ENV{PATH}" "CONFIG_SITE=${CMAKE_BINARY_DIR}/config.site" --
 		${MAKE_EXE} "-j${NJOBS}" &&
 
 		# Restore pthread.h
@@ -125,7 +125,7 @@ ExternalProject_Add(GCC_Stage3 DEPENDS BINUTILS_Stage3_Ninja
 
 	INSTALL_COMMAND
 		${CMAKE_COMMAND} -E env
-			"PATH=${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/bin:$ENV{PATH}" --
+			"PATH=${STAGE3_BINARY_DIR}/${CMAKE_INSTALL_PREFIX}/bin:$ENV{PATH}" "CONFIG_SITE=${CMAKE_BINARY_DIR}/config.site" --
 			${MAKE_EXE} "DESTDIR=${STAGE3_BINARY_DIR}" "-j${NJOBS}" install-strip
 
 	BUILD_BYPRODUCTS

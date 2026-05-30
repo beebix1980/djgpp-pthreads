@@ -63,7 +63,7 @@ ExternalProject_Add(PTHREAD_Stage2 DEPENDS PTHSOCK_Stage2_Ninja
 		${CMAKE_COMMAND}
 			"-DFILENAME=<DOWNLOAD_DIR>/config.sub"
 			"-DURL=${CONFIG_SUB_URL}"
-			"-P ${PROJECT_SOURCE_DIR}/cmake/DownloadFile.cmake"
+			"-P ${PROJECT_SOURCE_DIR}/cmake/DownloadFile.cmake" &&
 		${CMAKE_COMMAND}
 			-E copy "<DOWNLOAD_DIR>/config.sub" "<SOURCE_DIR><SOURCE_SUBDIR>" &&
 
@@ -79,7 +79,8 @@ ExternalProject_Add(PTHREAD_Stage2 DEPENDS PTHSOCK_Stage2_Ninja
 	#    (use -std=gnu... instead of -std=c... if they're needed).
 	#    Add a #ifndef __STRICT_ANSI__ clause to pthread.h where appropriate.
 	PATCH_COMMAND
-		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/pth207s.patch"
+		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/pth207s.patch" &&
+		${SED_EXE} -i "s/cross_compiling=no/cross_compiling=yes/g" "<SOURCE_DIR><SOURCE_SUBDIR>/configure"
 
 	CONFIGURE_COMMAND
 		# Ninja: Ensure that stage 1 binaries and stage 2 libsocket are installed before this point.

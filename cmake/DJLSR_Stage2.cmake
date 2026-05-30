@@ -172,6 +172,7 @@ ExternalProject_Add(DJLSR_Stage2 DEPENDS GCC_Stage1_Ninja
 		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-npxsetup.patch" &&
 		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-go32.patch" &&
 		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/djlsr205-gcc152-redir.patch" &&
+		${PATCH_EXE} -p1 < "${PATCHES_DIRECTORY}/dtoutod.patch" &&
 
 		# Clean the build tree
 		${MAKE_EXE} -C "<SOURCE_DIR>/src" "clean" &&
@@ -253,22 +254,27 @@ ExternalProject_Add(DJLSR_Stage2 DEPENDS GCC_Stage1_Ninja
 			-d "<INSTALL_DIR>/${DJGPP_TARGET_TRIPLET}" &&
 
 		# Install tools for the host
-		${CMAKE_COMMAND}
-			-E copy "<SOURCE_DIR>/hostbin/bin2h.exe" "<INSTALL_DIR>/bin/bin2h" &&
-		${CMAKE_COMMAND}
-			-E copy "<SOURCE_DIR>/hostbin/djasm.exe" "<INSTALL_DIR>/bin/djasm" &&
-		${CMAKE_COMMAND}
-			-E copy "<SOURCE_DIR>/hostbin/dxegen.exe" "<INSTALL_DIR>/bin/dxegen" &&
-		${CMAKE_COMMAND}
-			-E copy "<SOURCE_DIR>/hostbin/stubedit.exe" "<INSTALL_DIR>/bin/stubedit" &&
-		${CMAKE_COMMAND}
-			-E copy "<SOURCE_DIR>/hostbin/stubify.exe" "<INSTALL_DIR>/bin/stubify" &&
-		${CMAKE_C_COMPILER}
-			-O3 -Xlinker --strip-all -DNDEBUG
-			-o "<INSTALL_DIR>/bin/dtou" "<SOURCE_DIR>/src/utils/dtou.c" &&
-		${CMAKE_C_COMPILER}
-			-O3 -Xlinker --strip-all -DNDEBUG
-			-o "<INSTALL_DIR>/bin/utod" "<SOURCE_DIR>/src/utils/utod.c"
+		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/bin2h${CMAKE_EXECUTABLE_SUFFIX}" "<SOURCE_DIR>/src/utils/bin2h.c" &&
+		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/djasm${CMAKE_EXECUTABLE_SUFFIX}" "<SOURCE_DIR>/src/djasm/djasm.c" &&
+		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
+			"-DDXE_LD=\"${DJGPP_TARGET_TRIPLET}-ld\""
+			"-DDXE_CC=\"${DJGPP_TARGET_TRIPLET}-gcc\""
+			"-DDXE_AR=\"${DJGPP_TARGET_TRIPLET}-ar\""
+			"-DDXE_AS=\"${DJGPP_TARGET_TRIPLET}-as\""
+			-o "<INSTALL_DIR>/bin/dxegen${CMAKE_EXECUTABLE_SUFFIX}"
+			"<SOURCE_DIR>/src/dxe/dxe3gen.c" &&
+		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/stubedit${CMAKE_EXECUTABLE_SUFFIX}"
+			"<SOURCE_DIR>/src/stub/stubedit.c" &&
+		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/stubify${CMAKE_EXECUTABLE_SUFFIX}"
+			"<SOURCE_DIR>/src/stub/stubify.c" &&
+		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/dtou${CMAKE_EXECUTABLE_SUFFIX}" "<SOURCE_DIR>/src/utils/dtou.c" &&
+		${CMAKE_C_COMPILER} -O3 -Xlinker --strip-all -DNDEBUG
+			-o "<INSTALL_DIR>/bin/utod${CMAKE_EXECUTABLE_SUFFIX}" "<SOURCE_DIR>/src/utils/utod.c"
 
 	BUILD_BYPRODUCTS
 		"${DJLSR_STAGE2_BYPRODUCTS}"

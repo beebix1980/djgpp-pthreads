@@ -58,7 +58,7 @@ ExternalProject_Add(GCC_Stage2 DEPENDS BINUTILS_Stage2_Ninja
 			'<SOURCE_DIR>/configure' \
 				--prefix='${STAGE2_BINARY_DIR}' \
 				--build='{}' \
-				--host='{}' \
+				--host='{}'  \
 				--target='${DJGPP_TARGET_TRIPLET}' \
 				--enable-checking=release \
 				--with-gcc-major-version-only \

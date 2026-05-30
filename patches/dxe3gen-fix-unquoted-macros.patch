@@ -1,0 +1,50 @@
+--- a/src/dxe/dxe3gen.c
++++ b/src/dxe/dxe3gen.c
+@@ -212,21 +212,25 @@
+ #endif  /*  !DEBUG_SUPPORT_PRINT_RELOCATION_DIRECTIVES  */
+ 
+ 
++#define XSTRINGIFY(s) #s
++#define STRINGIFY(s) XSTRINGIFY(s)
++
++
+ /* Cross compile tool names */
+ #ifndef DXE_CC
+-#define DXE_CC  "gcc"
++#define DXE_CC  gcc
+ #endif
+ #ifndef DXE_AS
+-#define DXE_AS  "as"
++#define DXE_AS  as
+ #endif
+ #ifndef DXE_AR
+-#define DXE_AR  "ar"
++#define DXE_AR  ar
+ #endif
+ #ifndef DXE_LD
+-#define DXE_LD  "ld"
++#define DXE_LD  ld
+ #endif
+ #ifndef DXE_SC
+-#define DXE_SC  "dxe.ld"
++#define DXE_SC  dxe.ld
+ #endif
+ 
+ #ifdef _POSIX_SOURCE
+@@ -442,11 +446,11 @@
+ {
+   const char *e;
+ 
+-  dxe_cc = (e = getenv("DXE_CC")) ? strdup(e) : strdup(DXE_CC);
+-  dxe_as = (e = getenv("DXE_AS")) ? strdup(e) : strdup(DXE_AS);
+-  dxe_ar = (e = getenv("DXE_AR")) ? strdup(e) : strdup(DXE_AR);
+-  dxe_ld = (e = getenv("DXE_LD")) ? strdup(e) : strdup(DXE_LD);
+-  dxe_sc = (e = getenv("DXE_SC")) ? strdup(e) : strdup(DXE_SC);
++  dxe_cc = (e = getenv("DXE_CC")) ? strdup(e) : strdup(STRINGIFY(DXE_CC));
++  dxe_as = (e = getenv("DXE_AS")) ? strdup(e) : strdup(STRINGIFY(DXE_AS));
++  dxe_ar = (e = getenv("DXE_AR")) ? strdup(e) : strdup(STRINGIFY(DXE_AR));
++  dxe_ld = (e = getenv("DXE_LD")) ? strdup(e) : strdup(STRINGIFY(DXE_LD));
++  dxe_sc = (e = getenv("DXE_SC")) ? strdup(e) : strdup(STRINGIFY(DXE_SC));
+ 
+   if ((e = getenv("DXE_LD_LIBRARY_PATH")))
+     libdir = strdup(e);

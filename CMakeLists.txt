@@ -106,6 +106,23 @@ set(DJGPP_MTUNE "i586" CACHE STRING "Optimize DJGPP code generation for this arc
 # Optionally install WATT32
 option(HAVE_WATT32 "Install WATT32 instead of a dummy libsocket." OFF)
 
+# When cross-compiling for a different host (e.g. Windows via MinGW), set the
+# host triplet for GCC/Binutils configure scripts. When empty, config.guess is
+# used (native build on the current machine).
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	set(DJGPP_HOST_TRIPLET "${CMAKE_C_COMPILER_TARGET}" CACHE STRING
+		"Host triplet for GCC/Binutils configure (e.g. i686-w64-mingw32).")
+	if(NOT DJGPP_HOST_TRIPLET)
+		# Fallback: derive from the C compiler path (e.g. i686-w64-mingw32-gcc -> i686-w64-mingw32)
+		get_filename_component(_compiler_name "${CMAKE_C_COMPILER}" NAME)
+		string(REGEX REPLACE "-gcc$" "" DJGPP_HOST_TRIPLET "${_compiler_name}")
+	endif()
+	message(STATUS "Cross-compiling for Windows host: ${DJGPP_HOST_TRIPLET}")
+else()
+	set(DJGPP_HOST_TRIPLET "" CACHE STRING
+		"Host triplet for GCC/Binutils configure (empty = use config.guess).")
+endif()
+
 # Where dowloaded files are placed.
 set(DOWNLOAD_DIRECTORY "${PROJECT_SOURCE_DIR}/downloads")
 #set(DOWNLOAD_DIRECTORY "${PROJECT_BINARY_DIR}/downloads")
@@ -298,5 +315,6 @@ if(HAVE_WATT32)
 else()
 	message(STATUS "Using a dummy sockets library.")
 endif()
+
 
 # ex:set ts=2
