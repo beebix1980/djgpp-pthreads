@@ -1,0 +1,37 @@
+# DJGPP fix for GCC 15.1.0: libquadmath: putwc is undefined, use putc instead.
+#
+diff -Naur old/libquadmath/printf/quadmath-printf.h new/libquadmath/printf/quadmath-printf.h
+--- old/libquadmath/printf/quadmath-printf.h	2025-08-06 19:52:14.639897050 +0200
++++ new/libquadmath/printf/quadmath-printf.h	2025-08-06 20:02:10.458832248 +0200
+@@ -51,11 +51,11 @@
+ #define L_(x) x
+ #undef wchar_t
+ #undef wint_t
+-#undef putwc
++#undef putc
+ #undef WEOF
+ #define wchar_t char
+ #define wint_t int
+-#define putwc(c,f) putc(c,f)
++#define putc(c,f) putc(c,f)
+ #define WEOF EOF
+ #endif
+ 
+@@ -144,7 +144,7 @@
+ 	  size_t cnt;
+ 	  const wchar_t *ls = (const wchar_t *) s;
+ 	  for (cnt = 0; cnt < n; cnt++)
+-	    if (putwc (ls[cnt], fp->fp) == WEOF)
++	    if (putc (ls[cnt], fp->fp) == WEOF)
+ 	      break;
+ 	  return cnt;
+ 	}
+@@ -163,7 +163,7 @@
+ 		    wchar_t c)
+ {
+   if (fp->file_p)
+-    return wide ? (int) putwc (c, fp->fp) : putc (c, fp->fp);
++    return wide ? (int) putc (c, fp->fp) : putc (c, fp->fp);
+   if (fp->size)
+     {
+       *(fp->str++) = c;

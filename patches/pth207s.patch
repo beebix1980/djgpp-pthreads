@@ -1,0 +1,57 @@
+diff -Naur old/src/pth-2.0.7/pthread.h.in new/src/pth-2.0.7/pthread.h.in
+--- old/src/pth-2.0.7/pthread.h.in	2007-04-13 15:04:44.000000000 +0200
++++ new/src/pth-2.0.7/pthread.h.in	2026-04-09 20:51:45.364113090 +0200
+@@ -353,7 +353,9 @@
+ extern void      pthread_exit(void *);
+ extern int       pthread_join(pthread_t, void **);
+ extern int       pthread_once(pthread_once_t *, void (*)(void));
++#ifndef __STRICT_ANSI__
+ extern int       pthread_sigmask(int, const sigset_t *, sigset_t *);
++#endif
+ extern int       pthread_kill(pthread_t, int);
+ 
+ /* concurrency routines */
+@@ -496,7 +498,9 @@
+ extern int                __pthread_nanosleep(const struct timespec *, struct timespec *);
+ extern int                __pthread_usleep(unsigned int);
+ extern int                __pthread_system(const char *);
++#ifndef __STRICT_ANSI__
+ extern int                __pthread_sigwait(const sigset_t *, int *);
++#endif
+ extern pid_t              __pthread_waitpid(pid_t, int *, int);
+ extern int                __pthread_connect(int, struct sockaddr *, socklen_t);
+ extern int                __pthread_accept(int, struct sockaddr *, socklen_t *);
+@@ -510,16 +514,20 @@
+ extern ssize_t            __pthread_send(int, const void *, size_t, int);
+ extern ssize_t            __pthread_recvfrom(int, void *, size_t, int, struct sockaddr *, socklen_t *);
+ extern ssize_t            __pthread_sendto(int, const void *, size_t, int, const struct sockaddr *, socklen_t);
++#ifndef __STRICT_ANSI__
+ extern ssize_t            __pthread_pread(int, void *, size_t, off_t);
+ extern ssize_t            __pthread_pwrite(int, const void *, size_t, off_t);
++#endif
+ 
+-#if _POSIX_THREAD_SYSCALL_SOFT && !defined(_PTHREAD_PRIVATE)
++#if defined(_REENTRANT) && !defined(_PTHREAD_PRIVATE)
+ #define fork       __pthread_fork
+ #define sleep      __pthread_sleep
+ #define nanosleep  __pthread_nanosleep
+ #define usleep     __pthread_usleep
+ #define system     __pthread_system
++#ifndef __STRICT_ANSI__
+ #define sigwait    __pthread_sigwait
++#endif
+ #define waitpid    __pthread_waitpid
+ #define connect    __pthread_connect
+ #define accept     __pthread_accept
+@@ -533,9 +541,11 @@
+ #define send       __pthread_send
+ #define recvfrom   __pthread_recvfrom
+ #define sendto     __pthread_sendto
++#ifndef __STRICT_ANSI__
+ #define pread      __pthread_pread
+ #define pwrite     __pthread_pwrite
+ #endif
++#endif
+ 
+ /*
+  * More "special" POSIX stuff

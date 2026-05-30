@@ -1,0 +1,184 @@
+diff -Naur old/src/debug/fsdb/fullscr.c new/src/debug/fsdb/fullscr.c
+--- old/src/debug/fsdb/fullscr.c	2015-05-14 13:21:04.000000000 +0200
++++ new/src/debug/fsdb/fullscr.c	2025-01-30 18:03:35.257228689 +0100
+@@ -1456,12 +1456,16 @@
+ 	putl (x, y++, width, buf);
+ 
+ 	name = syms_val2name (breakpoint_table[b].addr, &delta);
++	
+ 	if (name[0] != '0')
+ 	{
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wformat-overflow"
+ 	  if (delta && (int)strlen (name) < width)
+ 	    sprintf (buf, " %s+%#lx", name, delta);
+ 	  else
+ 	    sprintf (buf, " %-*s", width, name);
++#pragma GCC diagnostic pop
+ 	}
+ 	else
+ 	  buf[0] = '\0';
+diff -Naur old/src/debug/fsdb/unassmbl.c new/src/debug/fsdb/unassmbl.c
+--- old/src/debug/fsdb/unassmbl.c	2011-12-23 07:44:42.000000000 +0100
++++ new/src/debug/fsdb/unassmbl.c	2025-01-30 18:47:00.571788715 +0100
+@@ -952,7 +952,10 @@
+ 	l = t - s;
+       else
+ 	l = strlen (s);
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-truncation"
+       strncpy (u, s, l);
++#pragma GCC diagnostic pop
+       if (l > 0 && u[l - 1] != '/' && u[l - 1] != '\\')
+ 	u[l++] = '/';
+       u[l] = 0;
+diff -Naur old/src/utils/texi2ps/fileio.c new/src/utils/texi2ps/fileio.c
+--- old/src/utils/texi2ps/fileio.c	1998-09-07 17:05:10.000000000 +0200
++++ new/src/utils/texi2ps/fileio.c	2025-01-30 18:39:36.636401316 +0100
+@@ -176,7 +176,7 @@
+ {
+   IncludeItem *ip = (IncludeItem *)malloc(sizeof(IncludeItem));
+   ip->next = 0;
+-  ip->path = (char *)malloc(strlen(p));
++  ip->path = (char *)malloc(strlen(p)+1);
+   strcpy(ip->path, p);
+   last_include_path->next = ip;
+   last_include_path = ip;
+diff -Naur old/src/utils/djtar/unlzh.c new/src/utils/djtar/unlzh.c
+--- old/src/utils/djtar/unlzh.c	2015-05-02 06:32:38.000000000 +0200
++++ new/src/utils/djtar/unlzh.c	2025-01-30 18:49:27.370403715 +0100
+@@ -235,8 +235,8 @@
+       if (c == 7)
+       {
+         mask = (unsigned) 1 << (BITBUFSIZ - 1 - 3);
+-        while (mask & bitbuf)
+-          mask >>= 1;  c++;
++        while (mask & bitbuf) mask >>= 1;
++        c++;
+       }
+       fillbuf((c < 7) ? 3 : c - 3);
+       pt_len[i++] = c;
+diff -Naur old/zoneinfo/src/zic.c new/zoneinfo/src/zic.c
+--- old/zoneinfo/src/zic.c	2013-08-17 20:04:51.000000000 +0200
++++ new/zoneinfo/src/zic.c	2025-01-30 19:01:27.310767069 +0100
+@@ -671,8 +671,11 @@
+ 
+ #define TIME_T_BITS_IN_FILE	64
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wshift-negative-value"
+ static const zic_t min_time = (zic_t) -1 << (TIME_T_BITS_IN_FILE - 1);
+ static const zic_t max_time = -1 - ((zic_t) -1 << (TIME_T_BITS_IN_FILE - 1));
++#pragma GCC diagnostic pop
+ 
+ static int
+ itsdir(const char *const name)
+@@ -1689,7 +1692,10 @@
+ 		}
+ #define DO(field)	((void) fwrite(tzh.field, sizeof tzh.field, 1, fp))
+ 		tzh = tzh0;
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-truncation"
+ 		(void) strncpy(tzh.tzh_magic, TZ_MAGIC, sizeof tzh.tzh_magic);
++#pragma GCC diagnostic pop
+ 		tzh.tzh_version[0] = ZIC_VERSION;
+ 		convert(thistypecnt, tzh.tzh_ttisgmtcnt);
+ 		convert(thistypecnt, tzh.tzh_ttisstdcnt);
+@@ -2027,7 +2033,9 @@
+ 	/*
+ 	** Reserve type 0.
+ 	*/
+-	gmtoffs[0] = isdsts[0] = ttisstds[0] = ttisgmts[0] = abbrinds[0] = -1;
++	gmtoffs[0] = isdsts[0] = ttisstds[0] = ttisgmts[0] = -1;
++	abbrinds[0] = 255;
++
+ 	typecnt = 1;
+ 	for (i = 0; i < zonecount; ++i) {
+ 		zp = &zpfirst[i];
+diff -Naur old/include/string.h new/include/string.h
+--- old/include/string.h	2015-05-02 06:31:49.000000000 +0200
++++ new/include/string.h	2025-01-30 19:06:21.119706461 +0100
+@@ -67,7 +67,7 @@
+ 
+ #include <sys/movedata.h>
+ 
+-int	bcmp(const void *_ptr1, const void *_ptr2, int _length);
++int	bcmp(const void *_ptr1, const void *_ptr2, long unsigned int _length);
+ void 	bcopy(const void *_a, void *_b, size_t _len);
+ void 	bzero(void *ptr, size_t _len);
+ int	ffs(int _mask);
+diff -Naur old/src/libc/compat/bsd/bcmp.c new/src/libc/compat/bsd/bcmp.c
+--- old/src/libc/compat/bsd/bcmp.c	2015-05-02 06:32:14.000000000 +0200
++++ new/src/libc/compat/bsd/bcmp.c	2025-01-30 19:57:37.826580340 +0100
+@@ -6,7 +6,7 @@
+ #undef bcmp
+ 
+ int
+-bcmp(const void *vptr1, const void *vptr2, int length)
++bcmp(const void *vptr1, const void *vptr2, unsigned long int length)
+ {
+   const char *ptr1 = vptr1;
+   const char *ptr2 = vptr2; 
+diff -Naur old/src/debug/common/syms.c new/src/debug/common/syms.c
+--- old/src/debug/common/syms.c	2002-10-17 22:00:24.000000000 +0200
++++ new/src/debug/common/syms.c	2025-03-15 15:33:51.142169121 +0100
+@@ -795,7 +795,7 @@
+ void syms_listwild(char *pattern,
+   void (*handler)(unsigned long addr, char type_c, char *name, char *name2, int lnum))
+ {
+-  int lnum;
++  int lnum = 0;
+   char *name;
+   int i;
+ 
+diff -Naur old/zoneinfo/src/date.c new/zoneinfo/src/date.c
+--- old/zoneinfo/src/date.c	2013-09-06 16:25:48.000000000 +0200
++++ new/zoneinfo/src/date.c	2025-01-30 19:13:36.446983087 +0100
+@@ -128,6 +128,7 @@
+ 		switch (ch) {
+ 		default:
+ 			usage();
++			[[fallthrough]];
+ 		case 'u':		/* do it in UTC */
+ 		case 'c':
+ 			dogmt();
+@@ -660,6 +661,7 @@
+ 		default:
+ 			wildinput(_("time"), value,
+ 				_("main part is wrong length"));
++			[[fallthrough]];
+ 		case 12:
+ 			if (!dousg) {
+ 				cent = ATOI2(cp);
+@@ -677,9 +679,11 @@
+ 		case 8:	/* mmddhhmm */
+ 			month = ATOI2(cp);
+ 			/* fall through to. . . */
++			[[fallthrough]];
+ 		case 6:	/* ddhhmm */
+ 			day = ATOI2(cp);
+ 			/* fall through to. . . */
++			[[fallthrough]];
+ 		case 4:	/* hhmm */
+ 			hour = ATOI2(cp);
+ 			mins = ATOI2(cp);
+diff -Naur old/zoneinfo/src/localtime.c new/zoneinfo/src/localtime.c
+--- old/zoneinfo/src/localtime.c	2014-04-20 12:07:00.000000000 +0200
++++ new/zoneinfo/src/localtime.c	2025-01-30 19:04:35.909941317 +0100
+@@ -1206,6 +1206,8 @@
+ 		(void) tzparse(gmt, sp, TRUE);
+ }
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+ #ifndef STD_INSPIRED
+ /*
+ ** A non-static declaration of tzsetwall in a system header file
+@@ -1233,6 +1235,7 @@
+ 		gmtload(lclptr);
+ 	settzname();
+ }
++#pragma GCC diagnostic pop
+ 
+ void
+ tzset(void)

@@ -1,0 +1,3119 @@
+diff -Naur old/inc/arpa/ftp.h new/inc/arpa/ftp.h
+--- old/inc/arpa/ftp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/arpa/ftp.h	2025-08-08 10:15:20.232334882 +0200
+@@ -40,6 +40,10 @@
+ #ifndef __ARPA_FTP_H
+ #define __ARPA_FTP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /* Definitions for FTP; see RFC-765. */
+ 
+ /*
+@@ -131,4 +135,8 @@
+ 
+ #define BLK_BYTECOUNT   2       /* Bytes in this block */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/arpa/nameser.h new/inc/arpa/nameser.h
+--- old/inc/arpa/nameser.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/arpa/nameser.h	2025-08-08 10:15:20.232334882 +0200
+@@ -79,6 +79,8 @@
+ #include <sys/cdefs.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ /*
+  * revision information.  this is the release date in YYYYMMDD format.
+  * it can change every day so the right thing to do with it is use it
+@@ -276,13 +278,9 @@
+ 
+ W32_CLANG_PACK_WARN_DEF()
+ 
+-__BEGIN_DECLS
+-
+ W32_FUNC u_short W32_CALL _getshort (const u_char *);
+ W32_FUNC u_long  W32_CALL _getlong  (const u_char *);
+ 
+-__END_DECLS
+-
+ /*
+  * Inline versions of get/put short/long.  Pointer is advanced.
+  *
+@@ -323,4 +321,5 @@
+         (cp) += INT32SZ; \
+       } while (0)
+ 
++__END_DECLS
+ #endif
+diff -Naur old/inc/arpa/telnet.h new/inc/arpa/telnet.h
+--- old/inc/arpa/telnet.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/arpa/telnet.h	2025-08-08 10:15:20.232334882 +0200
+@@ -44,6 +44,10 @@
+ #include <sys/w32api.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Definitions for the TELNET protocol.
+  */
+@@ -344,4 +348,8 @@
+ #define ENCTYPE_NAME_OK(x)  ((unsigned int)(x) < ENCTYPE_CNT)
+ #define ENCTYPE_NAME(x)     enctype_names[x]
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/arpa/tftp.h new/inc/arpa/tftp.h
+--- old/inc/arpa/tftp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/arpa/tftp.h	2025-08-08 10:15:20.232334882 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __ARPA_TFTP_H
+ #define __ARPA_TFTP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Trivial File Transfer Protocol (IEN-133)
+  */
+@@ -93,4 +97,8 @@
+ #define ENOUSER         7               /* no such user */
+ #define EOPTNEG         8               /* option negotiation failed */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/bpfdesc.h new/inc/net/bpfdesc.h
+--- old/inc/net/bpfdesc.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/bpfdesc.h	2025-08-08 10:15:20.232334882 +0200
+@@ -49,6 +49,10 @@
+ #ifndef __NET_BPF_DESC_H
+ #define __NET_BPF_DESC_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Descriptor associated with each open bpf file.
+  */
+@@ -104,4 +108,8 @@
+     struct ifnet *bif_ifp;      /* correspoding interface */
+ };
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #endif
+diff -Naur old/inc/net/bpf.h new/inc/net/bpf.h
+--- old/inc/net/bpf.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/bpf.h	2025-08-08 10:15:20.232334882 +0200
+@@ -53,6 +53,10 @@
+ #include <sys/wtime.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /* BSD style release date */
+ #define BPF_RELEASE 199606
+ 
+@@ -267,4 +271,8 @@
+  */
+ #define BPF_MEMWORDS 16
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_arc.h new/inc/net/if_arc.h
+--- old/inc/net/if_arc.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_arc.h	2025-08-08 10:15:20.232334882 +0200
+@@ -47,6 +47,10 @@
+ #include <sys/mbuf.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ W32_CLANG_PACK_WARN_OFF()
+ 
+ #include <sys/pack_on.h>
+@@ -128,4 +132,8 @@
+ 
+ W32_CLANG_PACK_WARN_DEF()
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_arp.h new/inc/net/if_arp.h
+--- old/inc/net/if_arp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_arp.h	2025-08-08 10:15:20.232334882 +0200
+@@ -41,6 +41,11 @@
+ 
+ #ifndef __NET_IF_ARP_H
+ #define __NET_IF_ARP_H
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Address Resolution Protocol.
+  *
+@@ -119,4 +124,8 @@
+ #define ATF_PUBL    0x08       /* publish entry (respond for other host) */
+ #define ATF_USETRAILERS 0x10   /* has requested trailers */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_atm.h new/inc/net/if_atm.h
+--- old/inc/net/if_atm.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_atm.h	2025-08-08 10:15:20.232334882 +0200
+@@ -43,6 +43,10 @@
+ #ifndef __NET_IF_ATM_H
+ #define __NET_IF_ATM_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #if defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__)
+   #define RTALLOC1(A,B)       rtalloc1((A),(B))
+ #elif defined(__FreeBSD__)
+@@ -111,4 +115,8 @@
+     (X)->type[0] = ((V) & 0xff); \
+ }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_dl.h new/inc/net/if_dl.h
+--- old/inc/net/if_dl.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_dl.h	2025-08-08 10:15:20.232334882 +0200
+@@ -49,6 +49,8 @@
+ #include <sys/cdefs.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ /*
+  * A Link-Level Sockaddr may specify the interface in one of two
+  * ways: either by means of a system-provided index number (computed
+@@ -84,8 +86,6 @@
+ 
+ #define LLADDR(s) ((caddr_t)((s)->sdl_data + (s)->sdl_nlen))
+ 
+-__BEGIN_DECLS
+-
+ W32_FUNC void  W32_CALL link_addr (const char *, struct sockaddr_dl *);
+ W32_FUNC char *W32_CALL link_ntoa (const struct sockaddr_dl *);
+ 
+diff -Naur old/inc/net/if.h new/inc/net/if.h
+--- old/inc/net/if.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if.h	2025-08-08 10:15:20.236334955 +0200
+@@ -78,6 +78,10 @@
+ #include <sys/wtime.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct rtentry;
+ struct ether_header;
+ struct proc   { int dummy; };
+@@ -352,6 +356,10 @@
+ #define ifc_req ifc_ifcu.ifcu_req   /* array of structures returned */
+ };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #ifndef __NET_IF_ARP_H
+ #include <net/if_arp.h>
+ #endif
+diff -Naur old/inc/net/if_llc.h new/inc/net/if_llc.h
+--- old/inc/net/if_llc.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_llc.h	2025-08-08 10:15:20.236334955 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NET_IF_LLC_H
+ #define __NET_IF_LLC_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * IEEE 802.2 Link Level Control headers, for use in conjunction with
+  * 802.{3,4,5} media access control methods.
+@@ -165,4 +169,8 @@
+ #define LLC_SNAP_LSAP   0xaa
+ #define LLC_ISO_LSAP    0xfe
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_media.h new/inc/net/if_media.h
+--- old/inc/net/if_media.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_media.h	2025-08-08 10:15:20.236334955 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NET_IF_MEDIA_H
+ #define __NET_IF_MEDIA_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Prototypes and definitions for BSD/OS-compatible network interface
+  * media selection.
+@@ -255,4 +259,8 @@
+ 	{ 0, NULL },							\
+ }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_packe.h new/inc/net/if_packe.h
+--- old/inc/net/if_packe.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_packe.h	2025-08-08 10:15:20.236334955 +0200
+@@ -5,6 +5,10 @@
+ #ifndef __LINUX_IF_PACKE_H
+ #define __LINUX_IF_PACKE_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct sockaddr_pkt
+ {
+     unsigned short spkt_family;
+@@ -105,4 +109,8 @@
+ #define PACKET_MR_PROMISC    1
+ #define PACKET_MR_ALLMULTI   2
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif  /* __LINUX_IF_PACKE_H */
+diff -Naur old/inc/net/if_ppp.h new/inc/net/if_ppp.h
+--- old/inc/net/if_ppp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_ppp.h	2025-08-08 10:15:20.236334955 +0200
+@@ -27,6 +27,10 @@
+ #ifndef __NET_IF_PPP_H
+ #define __NET_IF_PPP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Bit definitions for flags.
+  */
+@@ -129,4 +133,8 @@
+ #define ifr_mtu ifr_ifru.ifru_metric
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_pppva.h new/inc/net/if_pppva.h
+--- old/inc/net/if_pppva.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_pppva.h	2025-08-08 10:15:20.236334955 +0200
+@@ -54,6 +54,10 @@
+ #include <sys/mbuf.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Supported network protocols.  These values are used for
+  * indexing sc_npmode.
+@@ -111,4 +115,8 @@
+     int sc_rawin_count;     /* # in sc_rawin */
+ };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_slvar.h new/inc/net/if_slvar.h
+--- old/inc/net/if_slvar.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_slvar.h	2025-08-08 10:15:20.236334955 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NET_IF_SLVAR_H
+ #define __NET_IF_SLVAR_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Definitions for SLIP interface data structures
+  *
+@@ -82,4 +86,8 @@
+ #define SC_NOICMP   IFF_LINK1   /* supress ICMP traffic */
+ #define SC_AUTOCOMP IFF_LINK2   /* auto-enable TCP compression */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_strip.h new/inc/net/if_strip.h
+--- old/inc/net/if_strip.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_strip.h	2025-08-08 10:15:20.236334955 +0200
+@@ -14,6 +14,10 @@
+ #ifndef __NET_IF_STRIP_H
+ #define __NET_IF_STRIP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct strip_softc {
+     struct  ifnet sc_if;        /* network-visible interface */
+     int sc_unit;        /* XXX unit number */
+@@ -57,4 +61,8 @@
+ #define SC_NOICMP   IFF_LINK1   /* supress ICMP traffic */
+ #define SC_AUTOCOMP IFF_LINK2   /* auto-enable TCP compression */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/if_tun.h new/inc/net/if_tun.h
+--- old/inc/net/if_tun.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/if_tun.h	2025-08-08 10:15:20.236334955 +0200
+@@ -23,6 +23,10 @@
+ #ifndef __NET_IF_TUN_H
+ #define __NET_IF_TUN_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct tun_softc {
+     u_short tun_flags;      /* misc flags */
+ #define TUN_OPEN    0x0001
+@@ -55,4 +59,8 @@
+ #define TUNSIFMODE  _IOW('t', 88, int)
+ #define TUNSLMODE   _IOW('t', 87, int)
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/netisr.h new/inc/net/netisr.h
+--- old/inc/net/netisr.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/netisr.h	2025-08-08 10:15:20.236334955 +0200
+@@ -42,6 +42,10 @@
+ #ifndef __NET_NETISR_H
+ #define __NET_NETISR_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * The networking code runs off software interrupts.
+  *
+@@ -75,4 +79,8 @@
+ 
+ extern int netisr;         /* scheduling bits for network */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/ppp-comp.h new/inc/net/ppp-comp.h
+--- old/inc/net/ppp-comp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/ppp-comp.h	2025-08-08 10:15:20.236334955 +0200
+@@ -36,6 +36,10 @@
+ #ifndef __NET_PPP_COMP_H
+ #define __NET_PPP_COMP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * The following symbols control whether we include code for
+  * various compression methods.
+@@ -177,4 +181,8 @@
+ #define CI_PREDICTOR_2		2	/* config option for Predictor-2 */
+ #define CILEN_PREDICTOR_2	2	/* length of its config option */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/ppp_defs.h new/inc/net/ppp_defs.h
+--- old/inc/net/ppp_defs.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/ppp_defs.h	2025-08-08 10:15:20.236334955 +0200
+@@ -34,6 +34,10 @@
+ #ifndef __NET_PPP_DEFS_H
+ #define __NET_PPP_DEFS_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * The basic PPP frame.
+  */
+@@ -192,4 +196,8 @@
+     time_t recv_idle;		/* time since last NP packet received */
+ };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/radix.h new/inc/net/radix.h
+--- old/inc/net/radix.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/radix.h	2025-08-08 10:15:20.236334955 +0200
+@@ -54,6 +54,8 @@
+ #include <sys/cdefs.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ /*
+  * Radix search tree node layout.
+  */
+@@ -157,8 +159,6 @@
+ #define R_Malloc(p,t,n) (p = (t) malloc((unsigned int)(n)))
+ #define Free(p)         free ((void*)p);
+ 
+-__BEGIN_DECLS
+-
+ W32_FUNC void W32_CALL rn_init     (void);
+ W32_FUNC int  W32_CALL rn_inithead (void **, int);
+ W32_FUNC int  W32_CALL rn_refines  (void *, void *);
+diff -Naur old/inc/net/raw_cb.h new/inc/net/raw_cb.h
+--- old/inc/net/raw_cb.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/raw_cb.h	2025-08-08 10:15:20.236334955 +0200
+@@ -42,6 +42,10 @@
+ #ifndef __NET_RAW_CB_H
+ #define __NET_RAW_CB_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Raw protocol interface control block.  Used
+  * to tie a socket to the generic raw interface.
+@@ -62,4 +66,8 @@
+ #define RAWSNDQ         8192
+ #define RAWRCVQ         8192
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/route.h new/inc/net/route.h
+--- old/inc/net/route.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/route.h	2025-08-08 10:15:20.236334955 +0200
+@@ -41,6 +41,11 @@
+ 
+ #ifndef __NET_ROUTE_H
+ #define __NET_ROUTE_H
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Kernel resident routing tables.
+  * 
+@@ -233,4 +238,8 @@
+ 	int	any_count;
+ };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/net/slcompre.h new/inc/net/slcompre.h
+--- old/inc/net/slcompre.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/net/slcompre.h	2025-08-08 10:15:20.236334955 +0200
+@@ -54,6 +54,10 @@
+ #include <sys/mbuf.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifndef MLEN
+ #define MLEN 128
+ #endif
+@@ -176,4 +180,8 @@
+ int   sl_uncompress_tcp (u_char **, int, u_int, struct slcompress *);
+ int   sl_uncompress_tcp_core (u_char *, int, int, u_int, struct slcompress *, u_char **, u_int *);
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netdb.h new/inc/netdb.h
+--- old/inc/netdb.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netdb.h	2025-08-08 10:15:20.236334955 +0200
+@@ -93,6 +93,7 @@
+ #include <sys/cdefs.h>
+ #endif
+ 
++__BEGIN_DECLS
+ 
+ /*
+  * Structures returned by network data base library.  All addresses are
+@@ -218,8 +219,6 @@
+  */
+ #define SCOPE_DELIMITER '%'
+ 
+-__BEGIN_DECLS
+-
+ W32_FUNC void              W32_CALL endhostent     (void);
+ W32_FUNC void              W32_CALL endhostent6    (void);
+ W32_FUNC void              W32_CALL endnetent      (void);
+diff -Naur old/inc/netinet/icmp6.h new/inc/netinet/icmp6.h
+--- old/inc/netinet/icmp6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/icmp6.h	2025-08-08 10:15:20.236334955 +0200
+@@ -72,6 +72,10 @@
+ #ifndef _NETINET_ICMP6_H_
+ #define _NETINET_ICMP6_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifndef __SYS_WTYPES_H
+ #include <sys/wtypes.h>
+ #endif
+@@ -744,4 +748,8 @@
+ extern int      icmp6_redirtimeout;     /* cache time for redirect routes */
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* not _NETINET_ICMP6_H_ */
+diff -Naur old/inc/netinet/icmp_var.h new/inc/netinet/icmp_var.h
+--- old/inc/netinet/icmp_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/icmp_var.h	2025-08-08 10:15:20.240335028 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_ICMP_VAR_H
+ #define __NETINET_ICMP_VAR_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifndef ICMP_MAXTYPE
+ #define ICMP_MAXTYPE  18
+ #endif
+@@ -83,4 +87,8 @@
+         { "icmplim", CTLTYPE_INT }, \
+ }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/if_ether.h new/inc/netinet/if_ether.h
+--- old/inc/netinet/if_ether.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/if_ether.h	2025-08-08 10:15:20.240335028 +0200
+@@ -42,6 +42,10 @@
+ #ifndef __NETINET_IF_ETHER_H
+ #define __NETINET_IF_ETHER_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifndef __SYS_MBUF_H
+ #include <sys/mbuf.h>
+ #endif
+@@ -237,4 +241,8 @@
+         ETHER_NEXT_MULTI((step), (enm)); \
+ }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/if_fddi.h new/inc/netinet/if_fddi.h
+--- old/inc/netinet/if_fddi.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/if_fddi.h	2025-08-08 10:15:20.240335028 +0200
+@@ -43,6 +43,10 @@
+ #ifndef __NETINET_IF_FDDI_H
+ #define __NETINET_IF_FDDI_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ W32_CLANG_PACK_WARN_OFF()
+ 
+ #include <sys/pack_on.h>
+@@ -81,4 +85,8 @@
+ #define FDDIFC_LLC_SYNC         0xd0
+ #define FDDIFC_SMT              0x40
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/igmp.h new/inc/netinet/igmp.h
+--- old/inc/netinet/igmp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/igmp.h	2025-08-08 10:15:20.240335028 +0200
+@@ -45,6 +45,10 @@
+ #ifndef __NETINET_IGMP_H
+ #define __NETINET_IGMP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Internet Group Management Protocol (IGMP) definitions.
+  *
+@@ -105,4 +109,8 @@
+ #define IGMP_HOST_NEW_MEMBERSHIP_REPORT IGMP_V2_MEMBERSHIP_REPORT
+ #define IGMP_HOST_LEAVE_MESSAGE         IGMP_V2_LEAVE_GROUP
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/igmp_var.h new/inc/netinet/igmp_var.h
+--- old/inc/netinet/igmp_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/igmp_var.h	2025-08-08 10:15:20.240335028 +0200
+@@ -45,6 +45,10 @@
+ #ifndef __NETINET_IGMP_VAR_H
+ #define __NETINET_IGMP_VAR_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Internet Group Management Protocol (IGMP),
+  * implementation-specific definitions.
+@@ -77,6 +81,10 @@
+         { "stats", CTLTYPE_STRUCT }, \
+ }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+ 
+ 
+diff -Naur old/inc/netinet/in.h new/inc/netinet/in.h
+--- old/inc/netinet/in.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/in.h	2025-08-08 10:15:20.240335028 +0200
+@@ -45,6 +45,8 @@
+ #include <sys/socket.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ /*
+  * Constants and structures defined by the internet system,
+  * Per RFC 790, September 1981, and numerous additions.
+@@ -452,5 +454,7 @@
+ #define IN6_IS_ADDR_MC_GLOBAL(a)    \
+         (IN6_IS_ADDR_MULTICAST(a) && ((((u_int8_t*)(a))[1] & 0xf) == 0xe))
+ 
++__END_DECLS
++
+ #endif /* __NETINET_IN_H */
+ 
+diff -Naur old/inc/netinet/in_pcb.h new/inc/netinet/in_pcb.h
+--- old/inc/netinet/in_pcb.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/in_pcb.h	2025-08-08 10:15:20.240335028 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_IN_PCB_H
+ #define __NETINET_IN_PCB_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifndef __SYS_MBUF_H
+ #include <sys/mbuf.h>
+ #endif
+@@ -103,4 +107,8 @@
+ 
+ #define sotoinpcb(so)   ((struct inpcb *)(so)->so_pcb)
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/in_systm.h new/inc/netinet/in_systm.h
+--- old/inc/netinet/in_systm.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/in_systm.h	2025-08-08 10:15:20.240335028 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_IN_SYSTM_H
+ #define __NETINET_IN_SYSTM_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Miscellaneous internetwork
+  * definitions for kernel.
+@@ -59,4 +63,8 @@
+ 
+ typedef u_long  n_time;                 /* ms since 00:00 GMT, byte rev */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/in_var.h new/inc/netinet/in_var.h
+--- old/inc/netinet/in_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/in_var.h	2025-08-08 10:15:20.244335101 +0200
+@@ -43,6 +43,10 @@
+ 
+ #include <sys/queue.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Interface address, Internet version.  One of these structures
+  * is allocated for each interface with an Internet address.
+@@ -115,4 +119,8 @@
+         struct  router_info *inm_rti;   /* router info*/
+ };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/ip6.h new/inc/netinet/ip6.h
+--- old/inc/netinet/ip6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/ip6.h	2025-08-08 10:15:20.244335101 +0200
+@@ -72,6 +72,10 @@
+ #ifndef _NETINET_IP6_H_
+ #define _NETINET_IP6_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Definition for internet protocol version 6.
+  * RFC 2460
+@@ -326,4 +330,8 @@
+ } while (0)
+ #endif /*_KERNEL*/
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* not _NETINET_IP6_H_ */
+diff -Naur old/inc/netinet/ip_fw.h new/inc/netinet/ip_fw.h
+--- old/inc/netinet/ip_fw.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/ip_fw.h	2025-08-08 10:15:20.244335101 +0200
+@@ -29,6 +29,10 @@
+ #ifndef __NETINET_IP_FW_H
+ #define __NETINET_IP_FW_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct ip_fw {
+     u_long fw_pcnt,fw_bcnt;             /* Packet and byte counters */
+     struct in_addr fw_src, fw_dst;      /* Source and destination IP addr */
+@@ -120,4 +124,8 @@
+ #define IP_FW_TCPF_URG          TH_URG
+ #define IP_FW_TCPF_ESTAB        0x40
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/ip.h new/inc/netinet/ip.h
+--- old/inc/netinet/ip.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/ip.h	2025-08-08 10:15:20.244335101 +0200
+@@ -45,6 +45,10 @@
+ #include <netinet/in_systm.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #if defined(__TURBOC__) || defined(__BORLANDC__)
+ #pragma warn -bbf-   /* "Bitfields must be signed or unsigned int" warning */
+ #endif
+@@ -196,4 +200,8 @@
+ #pragma warn -bbf.
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/ip_icmp.h new/inc/netinet/ip_icmp.h
+--- old/inc/netinet/ip_icmp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/ip_icmp.h	2025-08-08 10:15:20.244335101 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_IP_ICMP_H
+ #define __NETINET_IP_ICMP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ W32_CLANG_PACK_WARN_OFF()
+ 
+ #include <sys/pack_on.h>
+@@ -196,4 +200,8 @@
+         (type) == ICMP_IREQ || (type) == ICMP_IREQREPLY || \
+         (type) == ICMP_MASKREQ || (type) == ICMP_MASKREPLY)
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/ip_mrout.h new/inc/netinet/ip_mrout.h
+--- old/inc/netinet/ip_mrout.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/ip_mrout.h	2025-08-08 10:15:20.244335101 +0200
+@@ -45,6 +45,10 @@
+ #ifndef __NETINET_IP_MROUTE_H
+ #define __NETINET_IP_MROUTE_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifndef __SYS_MBUF_H
+ #include <sys/mbuf.h>
+ #endif
+@@ -254,4 +258,8 @@
+     struct mbuf *tbf_t;         /* tail-insertion pointer       */
+ };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/ipv6.h new/inc/netinet/ipv6.h
+--- old/inc/netinet/ipv6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/ipv6.h	2025-08-08 10:15:20.244335101 +0200
+@@ -25,6 +25,10 @@
+ #include <netinet/in.h>  /* in6_addr */
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  *  Advanced API
+  *  source interface/address selection, source routing, etc...
+@@ -174,5 +178,9 @@
+ 
+ W32_CLANG_PACK_WARN_DEF()
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+ 
+diff -Naur old/inc/netinet/ip_var.h new/inc/netinet/ip_var.h
+--- old/inc/netinet/ip_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/ip_var.h	2025-08-08 10:15:20.244335101 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_IP_VAR_H
+ #define __NETINET_IP_VAR_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ W32_CLANG_PACK_WARN_OFF()
+ 
+ #include <sys/pack_on.h>
+@@ -165,4 +169,8 @@
+ #pragma warn -bbf.
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/tcp_debu.h new/inc/netinet/tcp_debu.h
+--- old/inc/netinet/tcp_debu.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/tcp_debu.h	2025-08-08 10:15:20.244335101 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_TCP_DEBUG_H
+ #define __NETINET_TCP_DEBUG_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct tcp_debug {
+        n_time           td_time;
+        short            td_act;
+@@ -119,4 +123,8 @@
+ 
+ #endif  /* TCP_AUTO_DEBUG */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif  /* __NETINET_TCP_DEBUG_H */
+diff -Naur old/inc/netinet/tcp_fsm.h new/inc/netinet/tcp_fsm.h
+--- old/inc/netinet/tcp_fsm.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/tcp_fsm.h	2025-08-08 10:15:20.244335101 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_TCP_FSM_H
+ #define __NETINET_TCP_FSM_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * TCP FSM state definitions.
+  * Per RFC793, September, 1981.
+@@ -93,4 +97,8 @@
+ };
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/tcp.h new/inc/netinet/tcp.h
+--- old/inc/netinet/tcp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/tcp.h	2025-08-08 10:15:20.244335101 +0200
+@@ -42,6 +42,10 @@
+ #ifndef __NETINET_TCP_H
+ #define __NETINET_TCP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ typedef u_long  tcp_seq;
+ typedef u_long  tcp_cc;                 /* connection count per rfc1644 */
+ 
+@@ -138,4 +142,8 @@
+ #define PSC_VERSION "0.8"
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/tcpip.h new/inc/netinet/tcpip.h
+--- old/inc/netinet/tcpip.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/tcpip.h	2025-08-08 10:15:20.244335101 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_TCPIP_H
+ #define __NETINET_TCPIP_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ W32_CLANG_PACK_WARN_OFF()
+ 
+ #include <sys/pack_on.h>
+@@ -86,4 +90,8 @@
+ #define ti_sum          ti_t.th_sum
+ #define ti_urp          ti_t.th_urp
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/tcp_scor.h new/inc/netinet/tcp_scor.h
+--- old/inc/netinet/tcp_scor.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/tcp_scor.h	2025-08-08 10:15:20.244335101 +0200
+@@ -21,6 +21,10 @@
+ #ifndef __NETINET_TCP_SCOREBOARD_H
+ #define __NETINET_TCP_SCOREBOARD_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /**********************************************************************
+  *
+  *  Scoreboard module headers: 
+@@ -105,4 +109,8 @@
+ #define SCRB_NOMEM             2
+ #define SCRB_TIMEOUT           3
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* __NETINET_TCP_SCOREBOARD_H */
+diff -Naur old/inc/netinet/tcp_time.h new/inc/netinet/tcp_time.h
+--- old/inc/netinet/tcp_time.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/tcp_time.h	2025-08-08 10:15:20.248335174 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_TCP_TIMER_H
+ #define __NETINET_TCP_TIMER_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Definitions of the TCP timers.  These timers are counted
+  * down PR_SLOWHZ times a second.
+@@ -130,4 +134,8 @@
+                 (tv) = (tvmax);                  \
+       }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/tcp_var.h new/inc/netinet/tcp_var.h
+--- old/inc/netinet/tcp_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/tcp_var.h	2025-08-08 10:15:20.248335174 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_TCP_VAR_H
+ #define __NETINET_TCP_VAR_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifndef __SYS_MBUF_H
+ #include <sys/mbuf.h>
+ #endif
+@@ -404,4 +408,8 @@
+         { "keepinit", CTLTYPE_INT }, \
+ }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/udp.h new/inc/netinet/udp.h
+--- old/inc/netinet/udp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/udp.h	2025-08-08 10:15:20.248335174 +0200
+@@ -40,6 +40,10 @@
+ #ifndef _NETINET_UDP_H_
+ #define _NETINET_UDP_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Udp protocol header.
+  * Per RFC 768, September, 1981.
+@@ -51,4 +55,8 @@
+         u_short uh_sum;                 /* udp checksum */
+ };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet/udp_var.h new/inc/netinet/udp_var.h
+--- old/inc/netinet/udp_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet/udp_var.h	2025-08-08 10:15:20.248335174 +0200
+@@ -41,6 +41,10 @@
+ #ifndef __NETINET_UDP_VAR_H
+ #define __NETINET_UDP_VAR_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * UDP kernel structures and variables.
+  */
+@@ -103,4 +107,8 @@
+         { "recvspace", CTLTYPE_INT }, \
+ }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet6/ah6.h new/inc/netinet6/ah6.h
+--- old/inc/netinet6/ah6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ah6.h	2025-08-08 10:15:20.248335174 +0200
+@@ -41,6 +41,10 @@
+ #ifndef _NETINET6_AH6_H_
+ #define _NETINET6_AH6_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ 
+ #ifndef __SYS_MBUF_H
+@@ -58,4 +62,8 @@
+ extern void ah6_ctlinput (int, struct sockaddr *, void *);
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /*_NETINET6_AH6_H_*/
+diff -Naur old/inc/netinet6/ah.h new/inc/netinet6/ah.h
+--- old/inc/netinet6/ah.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ah.h	2025-08-08 10:15:20.248335174 +0200
+@@ -45,6 +45,10 @@
+ #include "opt_inet.h"
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct ah {
+         u_int8_t        ah_nxt;         /* Next Header */
+         u_int8_t        ah_len;         /* Length of data, in 32bit */
+@@ -95,4 +99,8 @@
+         const struct ah_algorithm *, struct secasvar *));
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_AH_H_ */
+diff -Naur old/inc/netinet6/esp6.h new/inc/netinet6/esp6.h
+--- old/inc/netinet6/esp6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/esp6.h	2025-08-08 10:15:20.248335174 +0200
+@@ -45,6 +45,10 @@
+ #include <sys/mbuf.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ extern int esp6_output __P((struct mbuf *, u_char *, struct mbuf *,
+ 	struct ipsecrequest *));
+@@ -53,4 +57,8 @@
+ extern void esp6_ctlinput __P((int, struct sockaddr *, void *));
+ #endif /*_KERNEL*/
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /*_NETINET6_ESP6_H_*/
+diff -Naur old/inc/netinet6/esp.h new/inc/netinet6/esp.h
+--- old/inc/netinet6/esp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/esp.h	2025-08-08 10:15:20.248335174 +0200
+@@ -45,6 +45,10 @@
+ #include "opt_inet.h"
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct esp {
+        u_int32_t       esp_spi;        /* ESP */
+        /* variable size, 32bit bound *//* Initialization Vector */
+@@ -111,4 +115,8 @@
+                         struct secasvar *, u_char *);
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_ESP_H_ */
+diff -Naur old/inc/netinet6/esp_rijn.h new/inc/netinet6/esp_rijn.h
+--- old/inc/netinet6/esp_rijn.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/esp_rijn.h	2025-08-08 10:15:20.248335174 +0200
+@@ -33,6 +33,11 @@
+  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  * SUCH DAMAGE.
+  */
++#pragma once
++
++#ifdef __cplusplus
++extern "C" {
++#endif
+ 
+ int esp_rijndael_schedlen __P((const struct esp_algorithm *));
+ int esp_rijndael_schedule __P((const struct esp_algorithm *,
+@@ -41,3 +46,8 @@
+ 	struct secasvar *, u_int8_t *, u_int8_t *));
+ int esp_rijndael_blockencrypt __P((const struct esp_algorithm *,
+ 	struct secasvar *, u_int8_t *, u_int8_t *));
++
++#ifdef __cplusplus
++}
++#endif
++
+diff -Naur old/inc/netinet6/in6_gif.h new/inc/netinet6/in6_gif.h
+--- old/inc/netinet6/in6_gif.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/in6_gif.h	2025-08-08 10:15:20.248335174 +0200
+@@ -37,6 +37,10 @@
+ #ifndef _NETINET6_IN6_GIF_H_
+ #define _NETINET6_IN6_GIF_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifndef __SYS_MBUF_H
+ #include <sys/mbuf.h>
+ #endif
+@@ -47,4 +51,8 @@
+ int in6_gif_output __P((struct ifnet *, int, struct mbuf *, struct rtentry *));
+ int gif_encapcheck6 __P((const struct mbuf *, int, int, void *));
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /*_NETINET6_IN6_GIF_H_*/
+diff -Naur old/inc/netinet6/in6.h new/inc/netinet6/in6.h
+--- old/inc/netinet6/in6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/in6.h	2025-08-08 10:15:20.248335174 +0200
+@@ -72,6 +72,9 @@
+ #ifndef _NETINET6_IN6_H_
+ #define _NETINET6_IN6_H_
+ 
++#include <sys/cdefs.h>
++__BEGIN_DECLS
++
+ /*
+  * Identification of the network protocol stack
+  * for *BSD-current/release: http://www.kame.net/dev/cvsweb.cgi/kame/COVERAGE
+@@ -623,7 +626,6 @@
+ #undef _BSD_SIZE_T_
+ #endif
+ 
+-__BEGIN_DECLS
+ struct cmsghdr;
+ 
+ extern int inet6_option_space __P((int));
+diff -Naur old/inc/netinet6/in6_ifat.h new/inc/netinet6/in6_ifat.h
+--- old/inc/netinet6/in6_ifat.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/in6_ifat.h	2025-08-08 10:15:20.248335174 +0200
+@@ -37,6 +37,10 @@
+ #ifndef _NETINET6_IN6_IFATTACH_H_
+ #define _NETINET6_IN6_IFATTACH_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ void in6_nigroup_attach __P((const char *, int));
+ void in6_nigroup_detach __P((const char *, int));
+@@ -47,4 +51,8 @@
+ int in6_nigroup __P((struct ifnet *, const char *, int, struct in6_addr *));
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_IN6_IFATTACH_H_ */
+diff -Naur old/inc/netinet6/in6_pcb.h new/inc/netinet6/in6_pcb.h
+--- old/inc/netinet6/in6_pcb.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/in6_pcb.h	2025-08-08 10:15:20.248335174 +0200
+@@ -73,6 +73,10 @@
+ #ifndef _NETINET6_IN6_PCB_H_
+ #define	_NETINET6_IN6_PCB_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ 
+ #ifndef __SYS_MBUF_H
+@@ -118,4 +122,8 @@
+ void	init_sin6 __P((struct sockaddr_in6 *sin6, struct mbuf *m));
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* !_NETINET6_IN6_PCB_H_ */
+diff -Naur old/inc/netinet6/in6_pref.h new/inc/netinet6/in6_pref.h
+--- old/inc/netinet6/in6_pref.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/in6_pref.h	2025-08-08 10:15:20.248335174 +0200
+@@ -33,9 +33,13 @@
+  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  * SUCH DAMAGE.
+  */
+-
++#pragma once
+ #include <sys/callout.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct rr_prefix {
+ 	struct ifprefix	rp_ifpr;
+ 	LIST_ENTRY(rr_prefix) rp_entry;
+@@ -93,3 +97,8 @@
+ void in6_rr_timer __P((void *));
+ extern struct callout in6_rr_timer_ch;
+ int delete_each_prefix  __P((struct rr_prefix *rpp, u_char origin));
++
++#ifdef __cplusplus
++}
++#endif
++
+diff -Naur old/inc/netinet6/in6_var.h new/inc/netinet6/in6_var.h
+--- old/inc/netinet6/in6_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/in6_var.h	2025-08-08 10:15:20.248335174 +0200
+@@ -72,6 +72,10 @@
+ #ifndef _NETINET6_IN6_VAR_H_
+ #define _NETINET6_IN6_VAR_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Interface address, Internet version.  One of these structures
+  * is allocated for each interface with an Internet address.
+@@ -609,4 +613,8 @@
+ void in6_clearscope __P((struct in6_addr *));
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_IN6_VAR_H_ */
+diff -Naur old/inc/netinet6/ip6_ecn.h new/inc/netinet6/ip6_ecn.h
+--- old/inc/netinet6/ip6_ecn.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ip6_ecn.h	2025-08-08 10:15:20.252335247 +0200
+@@ -38,8 +38,15 @@
+  * ECN consideration on tunnel ingress/egress operation.
+  * http://www.aciri.org/floyd/papers/draft-ipsec-ecn-00.txt
+  */
+-
++#pragma once
++#ifdef __cplusplus
++extern "C" {
++#endif
+ #ifdef _KERNEL
+ extern void ip6_ecn_ingress __P((int, u_int32_t *, const u_int32_t *));
+ extern void ip6_ecn_egress __P((int, const u_int32_t *, u_int32_t *));
+ #endif
++#ifdef __cplusplus
++}
++#endif
++
+diff -Naur old/inc/netinet6/ip6_fw.h new/inc/netinet6/ip6_fw.h
+--- old/inc/netinet6/ip6_fw.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ip6_fw.h	2025-08-08 10:15:20.252335247 +0200
+@@ -54,6 +54,10 @@
+ 
+ #include <net/if.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * This union structure identifies an interface, either explicitly
+  * by name or implicitly by IP address. The flags IP_FW_F_IIFNAME
+@@ -235,4 +239,8 @@
+ 
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _IP6_FW_H */
+diff -Naur old/inc/netinet6/ip6_mrou.h new/inc/netinet6/ip6_mrou.h
+--- old/inc/netinet6/ip6_mrou.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ip6_mrou.h	2025-08-08 10:15:20.252335247 +0200
+@@ -55,6 +55,10 @@
+ #include <sys/mbuf.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Multicast Routing set/getsockopt commands.
+  */
+@@ -282,4 +286,8 @@
+ int	mrt6_ioctl __P((int, caddr_t));
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* !_NETINET6_IP6_MROUTE_H_ */
+diff -Naur old/inc/netinet6/ip6proto.h new/inc/netinet6/ip6proto.h
+--- old/inc/netinet6/ip6proto.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ip6proto.h	2025-08-08 10:15:20.252335247 +0200
+@@ -80,6 +80,10 @@
+  */
+ #include <net/pfil.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Protocol switch table for IPv6.
+  * All other definitions should refer to sys/protosw.h
+@@ -164,4 +168,8 @@
+ extern struct ip6protosw inet6sw[];
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* !_NETINET6_IP6PROTOSW_H_ */
+diff -Naur old/inc/netinet6/ip6_var.h new/inc/netinet6/ip6_var.h
+--- old/inc/netinet6/ip6_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ip6_var.h	2025-08-08 10:15:20.252335247 +0200
+@@ -80,6 +80,10 @@
+ #include <sys/mbuf.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #if !defined(__BORLANDC__) /* stop warnings for undefined structs */
+ /*
+  * IP6 reassembly queue structure.  Each fragment
+@@ -373,4 +377,8 @@
+ int	none_input __P((struct mbuf **, int *, int));
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* !_NETINET6_IP6_VAR_H_ */
+diff -Naur old/inc/netinet6/ipcomp6.h new/inc/netinet6/ipcomp6.h
+--- old/inc/netinet6/ipcomp6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ipcomp6.h	2025-08-08 10:15:20.252335247 +0200
+@@ -41,10 +41,18 @@
+ #ifndef _NETINET6_IPCOMP6_H_
+ #define _NETINET6_IPCOMP6_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ extern int ipcomp6_input __P((struct mbuf **, int *, int));
+ extern int ipcomp6_output __P((struct mbuf *, u_char *, struct mbuf *,
+ 	struct ipsecrequest *));
+ #endif /*KERNEL*/
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /*_NETINET6_IPCOMP6_H_*/
+diff -Naur old/inc/netinet6/ipcomp.h new/inc/netinet6/ipcomp.h
+--- old/inc/netinet6/ipcomp.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ipcomp.h	2025-08-08 10:15:20.252335247 +0200
+@@ -45,6 +45,10 @@
+ #include "opt_inet.h"
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct ipcomp {
+ 	u_int8_t comp_nxt;	/* Next Header */
+ 	u_int8_t comp_flags;	/* reserved, must be zero */
+@@ -72,4 +76,8 @@
+ extern int ipcomp4_output __P((struct mbuf *, struct ipsecrequest *));
+ #endif /* KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_IPCOMP_H_ */
+diff -Naur old/inc/netinet6/ipsec6.h new/inc/netinet6/ipsec6.h
+--- old/inc/netinet6/ipsec6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ipsec6.h	2025-08-08 10:15:20.252335247 +0200
+@@ -44,6 +44,10 @@
+ #include <net/pfkeyv2.h>
+ #include <netkey/keydb.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ extern struct ipsecstat ipsec6stat;
+ extern struct secpolicy ip6_def_policy;
+@@ -84,4 +88,8 @@
+ 	struct secasvar *));
+ #endif /*_KERNEL*/
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /*_NETINET6_IPSEC6_H_*/
+diff -Naur old/inc/netinet6/ipsec.h new/inc/netinet6/ipsec.h
+--- old/inc/netinet6/ipsec.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/ipsec.h	2025-08-08 10:15:20.252335247 +0200
+@@ -41,6 +41,10 @@
+ #ifndef _NETINET6_IPSEC_H_
+ #define _NETINET6_IPSEC_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #if defined(_KERNEL) && !defined(_LKM) && !defined(KLD_MODULE)
+ #include "opt_inet.h"
+ #include "opt_ipsec.h"
+@@ -355,4 +359,8 @@
+ extern const char *ipsec_strerror __P((void));
+ #endif /* !_KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_IPSEC_H_ */
+diff -Naur old/inc/netinet6/mld6_var.h new/inc/netinet6/mld6_var.h
+--- old/inc/netinet6/mld6_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/mld6_var.h	2025-08-08 10:15:20.252335247 +0200
+@@ -37,6 +37,10 @@
+ #ifndef _NETINET6_MLD6_VAR_H_
+ #define _NETINET6_MLD6_VAR_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ 
+ #define MLD6_RANDOM_DELAY(X) (random() % (X) + 1)
+@@ -54,4 +58,8 @@
+ void	mld6_fasttimeo __P((void));
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_MLD6_VAR_H_ */
+diff -Naur old/inc/netinet6/nd6.h new/inc/netinet6/nd6.h
+--- old/inc/netinet6/nd6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/nd6.h	2025-08-08 10:15:20.252335247 +0200
+@@ -45,6 +45,10 @@
+ #include <sys/queue.h>
+ #include <sys/callout.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct	llinfo_nd6 {
+ 	struct	llinfo_nd6 *ln_next;
+ 	struct	llinfo_nd6 *ln_prev;
+@@ -405,4 +409,8 @@
+ 
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_ND6_H_ */
+diff -Naur old/inc/netinet6/pim6.h new/inc/netinet6/pim6.h
+--- old/inc/netinet6/pim6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/pim6.h	2025-08-08 10:15:20.252335247 +0200
+@@ -41,6 +41,11 @@
+  * MULTICAST
+  */
+ 
++#pragma once
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * PIM packet header
+  */
+@@ -71,3 +76,8 @@
+ 
+ /* second bit in reg_head is the null bit */
+ #define PIM_NULL_REGISTER 0x40000000
++
++#ifdef __cplusplus
++}
++#endif
++
+diff -Naur old/inc/netinet6/pim6_var.h new/inc/netinet6/pim6_var.h
+--- old/inc/netinet6/pim6_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/pim6_var.h	2025-08-08 10:15:20.256335320 +0200
+@@ -37,6 +37,10 @@
+ #ifndef _NETINET6_PIM6_VAR_H_
+ #define _NETINET6_PIM6_VAR_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Protocol Independent Multicast (PIM),
+  * implementation-specific definitions.
+@@ -71,4 +75,9 @@
+ 	{ 0, 0 }, \
+ 	{ 0, 0 }, \
+ }
++
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_PIM6_VAR_H_ */
+diff -Naur old/inc/netinet6/raw_ip6.h new/inc/netinet6/raw_ip6.h
+--- old/inc/netinet6/raw_ip6.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/raw_ip6.h	2025-08-08 10:15:20.256335320 +0200
+@@ -37,6 +37,10 @@
+ #ifndef _NETINET6_RAW_IP6_H_
+ #define _NETINET6_RAW_IP6_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * ICMPv6 stat is counted separately.  see netinet/icmp6.h
+  */
+@@ -55,4 +59,8 @@
+ extern struct rip6stat rip6stat;
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/netinet6/scope6_v.h new/inc/netinet6/scope6_v.h
+--- old/inc/netinet6/scope6_v.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/scope6_v.h	2025-08-08 10:15:20.256335320 +0200
+@@ -37,6 +37,10 @@
+ #ifndef _NETINET6_SCOPE6_VAR_H_
+ #define _NETINET6_SCOPE6_VAR_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ void	scope6_ifattach __P((struct ifnet *));
+ int	scope6_set __P((struct ifnet *, u_int32_t *));
+@@ -47,4 +51,8 @@
+ u_int32_t scope6_addr2default __P((struct in6_addr *));
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET6_SCOPE6_VAR_H_ */
+diff -Naur old/inc/netinet6/tcp6_var.h new/inc/netinet6/tcp6_var.h
+--- old/inc/netinet6/tcp6_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/tcp6_var.h	2025-08-08 10:15:20.256335320 +0200
+@@ -71,6 +71,10 @@
+ #ifndef _NETINET_TCP6_VAR_H_
+ #define _NETINET_TCP6_VAR_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ #ifdef SYSCTL_DECL
+ SYSCTL_DECL(_net_inet6_tcp6);
+@@ -88,4 +92,8 @@
+ 
+ #endif /* _KERNEL */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _NETINET_TCP6_VAR_H_ */
+diff -Naur old/inc/netinet6/udp6_var.h new/inc/netinet6/udp6_var.h
+--- old/inc/netinet6/udp6_var.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/netinet6/udp6_var.h	2025-08-08 10:15:20.256335320 +0200
+@@ -71,6 +71,10 @@
+ #ifndef _NETINET6_UDP6_VAR_H_
+ #define _NETINET6_UDP6_VAR_H_
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #ifdef _KERNEL
+ SYSCTL_DECL(_net_inet6_udp6);
+ 
+@@ -83,4 +87,8 @@
+ 			struct thread *td));
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /*_NETINET6_UDP6_VAR_H_*/
+diff -Naur old/inc/protocol/dumprest.h new/inc/protocol/dumprest.h
+--- old/inc/protocol/dumprest.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/protocol/dumprest.h	2025-08-08 10:15:20.256335320 +0200
+@@ -47,6 +47,10 @@
+ #ifndef __PROTOCOL_DUMPRESTORE_H
+ #define __PROTOCOL_DUMPRESTORE_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * TP_BSIZE is the size of file blocks on the dump tapes.
+  * Note that TP_BSIZE must be a multiple of DEV_BSIZE.
+@@ -120,4 +124,8 @@
+ 						/* name, level, ctime(date) */
+ #define	DUMPINFMT	"%16s %c %[^\n]\n"	/* inverse for scanf */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/protocol/routed.h new/inc/protocol/routed.h
+--- old/inc/protocol/routed.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/protocol/routed.h	2025-08-08 10:15:20.256335320 +0200
+@@ -42,6 +42,10 @@
+ #ifndef __PROTOCOL_ROUTED_H
+ #define __PROTOCOL_ROUTED_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Routing Information Protocol
+  *
+@@ -176,4 +180,8 @@
+ #define	EXPIRE_TIME		180	/* time to mark entry invalid */
+ #define	GARBAGE_TIME		240	/* time to garbage collect */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/protocol/rwhod.h new/inc/protocol/rwhod.h
+--- old/inc/protocol/rwhod.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/protocol/rwhod.h	2025-08-08 10:15:20.256335320 +0200
+@@ -42,6 +42,10 @@
+ #ifndef __PROTOCOL_RWHOD_H
+ #define __PROTOCOL_RWHOD_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #include <sys/pack_on.h>
+ 
+ /*
+@@ -75,4 +79,8 @@
+ 
+ #define	_PATH_RWHODIR	"/var/rwho"
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/protocol/talkd.h new/inc/protocol/talkd.h
+--- old/inc/protocol/talkd.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/protocol/talkd.h	2025-08-08 10:15:20.256335320 +0200
+@@ -42,6 +42,10 @@
+ #ifndef __PROTOCOL_TALKD_H
+ #define __PROTOCOL_TALKD_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * This describes the protocol used by the talk server and clients.
+  *
+@@ -121,4 +125,8 @@
+ /* RING_WAIT should be 10's of seconds less than MAX_LIFE */
+ #define RING_WAIT	30	/* time to wait before resending invitation */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/protocol/timed.h new/inc/protocol/timed.h
+--- old/inc/protocol/timed.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/protocol/timed.h	2025-08-08 10:15:20.256335320 +0200
+@@ -42,6 +42,10 @@
+ #ifndef __PROTOCOL_TIMED_H
+ #define __PROTOCOL_TIMED_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * Time Synchronization Protocol
+  */
+@@ -110,4 +114,8 @@
+    };
+ #endif
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/resolv.h new/inc/resolv.h
+--- old/inc/resolv.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/resolv.h	2025-08-08 10:15:20.256335320 +0200
+@@ -85,6 +85,8 @@
+ #include <arpa/nameser.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ /*
+  * revision information.  this is the release date in YYYYMMDD format.
+  * it can change every day so the right thing to do with it is use it
+@@ -237,8 +239,6 @@
+ #define res_nameinquery  __res_nameinquery
+ #define res_queriesmatch __res_queriesmatch
+ 
+-__BEGIN_DECLS
+-
+ W32_FUNC int      W32_CALL __res_hnok   (const char *);
+ W32_FUNC int      W32_CALL __res_ownok  (const char *);
+ W32_FUNC int      W32_CALL __res_mailok (const char *);
+diff -Naur old/inc/rpc/auth_des.h new/inc/rpc/auth_des.h
+--- old/inc/rpc/auth_des.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/auth_des.h	2025-08-08 10:15:20.256335320 +0200
+@@ -43,6 +43,10 @@
+ #ifndef __AUTH_DES_H
+ #define __AUTH_DES_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * There are two kinds of "names": fullnames and nicknames
+  */
+@@ -106,4 +110,8 @@
+ #define adv_xtimeverf	adv_time_u.adv_xtime
+ #define adv_nickname	adv_int_u
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* !__AUTH_DES_H */
+diff -Naur old/inc/rpc/auth.h new/inc/rpc/auth.h
+--- old/inc/rpc/auth.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/auth.h	2025-08-08 10:15:20.256335320 +0200
+@@ -56,6 +56,8 @@
+ #include <sys/socket.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ #define MAX_AUTH_BYTES	400
+ #define MAXNETNAMELEN	255	/* maximum length of network user's name */
+ 
+@@ -89,12 +91,8 @@
+ 
+ typedef union des_block des_block;
+ 
+-__BEGIN_DECLS
+-
+ extern bool_t xdr_des_block (XDR *, des_block *);
+ 
+-__END_DECLS
+-
+ /*
+  * Authentication info.  Opaque to client.
+  */
+@@ -162,14 +160,11 @@
+  *	int *aup_gids;
+  */
+ 
+-__BEGIN_DECLS
+-
+ extern AUTH *authunix_create        (char *, int, int, int, int *);
+ extern AUTH *authunix_create_default(void);
+ extern AUTH *authnone_create        (void);
+ extern AUTH *authdes_create         (char*, u_int, struct sockaddr*, des_block*);
+ 
+-__END_DECLS
+ 
+ #define AUTH_NONE	0		/* no authentication */
+ #define	AUTH_NULL	0		/* backward compatibility */
+@@ -177,4 +172,5 @@
+ #define	AUTH_SHORT	2		/* short hand unix style */
+ #define AUTH_DES	3		/* des style (encrypted timestamps) */
+ 
++__END_DECLS
+ #endif
+diff -Naur old/inc/rpc/auth_uni.h new/inc/rpc/auth_uni.h
+--- old/inc/rpc/auth_uni.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/auth_uni.h	2025-08-08 10:15:20.256335320 +0200
+@@ -53,6 +53,8 @@
+ 
+ #include <sys/cdefs.h>
+ 
++__BEGIN_DECLS
++
+ /* The machine name is part of a credential; it may not exceed 255 bytes */
+ #define MAX_MACHINE_NAME 255
+ 
+@@ -71,12 +73,8 @@
+ 	int	*aup_gids;
+ };
+ 
+-__BEGIN_DECLS
+-
+ extern bool_t xdr_authunix_parms (XDR *, struct authunix_parms *);
+ 
+-__END_DECLS
+-
+ /*
+  * If a response verifier has flavor AUTH_SHORT,
+  * then the body of the response verifier encapsulates the following structure;
+@@ -86,4 +84,6 @@
+        struct opaque_auth new_cred;
+ };
+ 
++__END_DECLS
++
+ #endif
+diff -Naur old/inc/rpc/clnt.h new/inc/rpc/clnt.h
+--- old/inc/rpc/clnt.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/clnt.h	2025-08-08 10:15:20.256335320 +0200
+@@ -48,6 +48,8 @@
+ #include <rpc/types.h>
+ #include <rpc/xdr.h>
+ 
++__BEGIN_DECLS
++
+ /*
+  * Rpc calls return an enum clnt_stat.  This should be looked at more,
+  * since each implementation is required to live with this (implementation
+@@ -233,8 +235,6 @@
+ 
+ #define NULLPROC ((u_long)0)
+ 
+-__BEGIN_DECLS
+-
+ /*
+  * Below are the client handle creation routines for the various
+  * implementations of client side rpc.  They can return NULL if a
+@@ -334,9 +334,6 @@
+                     xdrproc_t inproc,  char *in,
+                     xdrproc_t outproc, char *out);
+ 
+-__END_DECLS
+-
+-
+ /*
+  * If a creation fails, the following allows the user to figure out why.
+  */
+@@ -353,4 +350,6 @@
+ #define UDPMSGSIZE	8800	/* rpc imposed limit on udp msg size */
+ #define RPCSMALLMSGSIZE	400	/* a more reasonable packet size */
+ 
++__END_DECLS
++
+ #endif
+diff -Naur old/inc/rpc/key_prot.h new/inc/rpc/key_prot.h
+--- old/inc/rpc/key_prot.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/key_prot.h	2025-08-08 10:15:20.256335320 +0200
+@@ -11,6 +11,9 @@
+ #ifndef __KEY_PROT_H
+ #define __KEY_PROT_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
+ 
+ /*
+  * Copyright (c) 1988 by Sun Microsystems, Inc.
+@@ -95,5 +98,8 @@
+ #define KEY_GETCRED               5UL
+ extern getcredres *key_getcred_1();
+ 
++#ifdef __cplusplus
++}
++#endif
+ 
+ #endif /* !__KEY_PROT_H */
+diff -Naur old/inc/rpc/pmap_pro.h new/inc/rpc/pmap_pro.h
+--- old/inc/rpc/pmap_pro.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/pmap_pro.h	2025-08-08 10:15:20.260335393 +0200
+@@ -89,6 +89,8 @@
+ #define PMAPPROC_DUMP     ((u_long)4)
+ #define PMAPPROC_CALLIT   ((u_long)5)
+ 
++__BEGIN_DECLS
++
+ struct pmap {
+        long unsigned pm_prog;
+        long unsigned pm_vers;
+@@ -101,8 +103,6 @@
+        struct pmaplist *pml_next;
+      };
+ 
+-__BEGIN_DECLS
+-
+ extern bool_t xdr_pmap    (XDR *, struct pmap *);
+ extern bool_t xdr_pmaplist(XDR *, struct pmaplist **);
+ 
+diff -Naur old/inc/rpc/pmap_rmt.h new/inc/rpc/pmap_rmt.h
+--- old/inc/rpc/pmap_rmt.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/pmap_rmt.h	2025-08-08 10:15:20.260335393 +0200
+@@ -47,6 +47,8 @@
+ 
+ #include <sys/cdefs.h>
+ 
++__BEGIN_DECLS
++
+ struct rmtcallargs {
+        u_long    prog, vers, proc, arglen;
+        caddr_t   args_ptr;
+@@ -60,8 +62,6 @@
+        xdrproc_t xdr_results;
+      };
+ 
+-__BEGIN_DECLS
+-
+ extern bool_t xdr_rmtcall_args (XDR *, struct rmtcallargs *);
+ extern bool_t xdr_rmtcallres   (XDR *, struct rmtcallres *);
+ 
+diff -Naur old/inc/rpc/rpc.h new/inc/rpc/rpc.h
+--- old/inc/rpc/rpc.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/rpc.h	2025-08-08 10:15:20.260335393 +0200
+@@ -78,14 +78,14 @@
+  */
+ /* routines for parsing /etc/rpc */
+ 
++__BEGIN_DECLS
++
+ struct rpcent {
+       char    *r_name;        /* name of server for this rpc program */
+       char    **r_aliases;    /* alias list */
+       long    r_number;       /* rpc program number. */
+ };                            /* Must be 32-bit for small/large model */
+ 
+-__BEGIN_DECLS
+-
+ extern struct rpcent *getrpcbyname  (char *);
+ extern struct rpcent *getrpcbynumber(long);
+ extern struct rpcent *getrpcent     (void);
+diff -Naur old/inc/rpc/rpc_msg.h new/inc/rpc/rpc_msg.h
+--- old/inc/rpc/rpc_msg.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/rpc_msg.h	2025-08-08 10:15:20.260335393 +0200
+@@ -47,6 +47,8 @@
+ 
+ #include <sys/cdefs.h>
+ 
++__BEGIN_DECLS
++
+ #define RPC_MSG_VERSION    ((u_long) 2)
+ #define RPC_SERVICE_PORT   ((u_short) 2048)
+ 
+@@ -168,8 +170,6 @@
+ 
+ #include <sys/pack_off.h>
+ 
+-__BEGIN_DECLS
+-
+ /*
+  * XDR routine to handle a rpc message.
+  * xdr_callmsg(xdrs, cmsg)
+diff -Naur old/inc/rpc/svc_auth.h new/inc/rpc/svc_auth.h
+--- old/inc/rpc/svc_auth.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/svc_auth.h	2025-08-08 10:15:20.260335393 +0200
+@@ -44,6 +44,10 @@
+ #ifndef __RPC_SVC_AUTH_H
+ #define __RPC_SVC_AUTH_H
+ 
++#ifndef __SYS_CDEFS_H
++#include <sys/cdefs.h>
++#endif
++
+ /*
+  * Server side authenticator
+  */
+diff -Naur old/inc/rpc/svc.h new/inc/rpc/svc.h
+--- old/inc/rpc/svc.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/svc.h	2025-08-08 10:15:20.260335393 +0200
+@@ -56,6 +56,8 @@
+ #include <sys/cdefs.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ /*
+  * This interface must manage two items concerning remote procedure calling:
+  *
+@@ -167,8 +169,6 @@
+        SVCXPRT           *rq_xprt;       /* associated transport */
+      };
+ 
+-__BEGIN_DECLS
+-
+ /*
+  * Service registration
+  *
+diff -Naur old/inc/rpc/xdr.h new/inc/rpc/xdr.h
+--- old/inc/rpc/xdr.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpc/xdr.h	2025-08-08 10:15:20.260335393 +0200
+@@ -48,6 +48,9 @@
+ #include <sys/cdefs.h>
+ #endif
+ 
++__BEGIN_DECLS
++
++
+ /*
+  * XDR provides a conventional way for converting between C data
+  * types and an external bit-string representation.  Library supplied
+@@ -232,8 +235,6 @@
+  * These are the "generic" xdr routines.
+  */
+ 
+-__BEGIN_DECLS
+-
+ extern bool_t   xdr_void       (XDR *, caddr_t);
+ extern bool_t   xdr_int        (XDR *, int *);
+ extern bool_t   xdr_u_int      (XDR *, u_int *);
+@@ -264,8 +265,6 @@
+  */
+ #define xdr_opaque(xdr,obj,size) __xdr_opaque(xdr,(caddr_t)obj,size) 
+ 
+-__END_DECLS
+-
+ /*
+  * Common opaque bytes objects used by many rpc protocols;
+  * declared here due to commonality.
+@@ -282,8 +281,6 @@
+  * xdr streams.
+  */
+ 
+-__BEGIN_DECLS
+-
+ extern bool_t xdr_netobj (XDR *, struct netobj *);
+ 
+ /* XDR using memory buffers */
+diff -Naur old/inc/rpcsvc/ypclnt.h new/inc/rpcsvc/ypclnt.h
+--- old/inc/rpcsvc/ypclnt.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpcsvc/ypclnt.h	2025-08-08 10:15:20.260335393 +0200
+@@ -36,6 +36,10 @@
+ #ifndef __RPCSVC_YPCLNT_H
+ #define __RPCSVC_YPCLNT_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #define YPERR_BADARGS	1		/* args to function are bad */
+ #define YPERR_RPC	2		/* RPC failure */
+ #define YPERR_DOMAIN	3		/* can't bind to a server for domain */
+@@ -84,5 +88,9 @@
+ char *ypbinderr_string(int incode);
+ int   ypprot_err      (unsigned int incode);
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+ 
+diff -Naur old/inc/rpcsvc/yp_prot.h new/inc/rpcsvc/yp_prot.h
+--- old/inc/rpcsvc/yp_prot.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/rpcsvc/yp_prot.h	2025-08-08 10:15:20.260335393 +0200
+@@ -36,6 +36,10 @@
+ #ifndef __RPCSVC_YP_PROT_H
+ #define __RPCSVC_YP_PROT_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /*
+  * YPSERV PROTOCOL:
+  *
+@@ -331,4 +335,8 @@
+ #define YPPUSH_XFRERR	((long)-13)	/* ypxfr error */
+ #define YPPUSH_REFUSED	((long)-14)	/* Transfer request refused by ypserv */
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/sys/cdefs.h new/inc/sys/cdefs.h
+--- old/inc/sys/cdefs.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/cdefs.h	2025-08-08 10:15:20.260335393 +0200
+@@ -45,38 +45,9 @@
+ #ifndef __SYS_CDEFS_H
+ #define __SYS_CDEFS_H
+ 
+-#if defined(__HIGHC__)
+-  /*
+-   * Note to High-C users:
+-   *   The below pragma (to suppress warning for '#include_next' line) has no effect
+-   *   here. The pragma needs to be put in your CFLAGS as
+-   *   '-Hpragma=Offwarn(491)'.
+-   *
+-   *   The warning w/o this pragma is something like:
+-   *    "w "../../inc/sys/cdefs.h",L60/C23(#491):  Unrecognized preprocessor directive:"
+-   */
+-#endif
+-
+-#if defined(__DJGPP__) || defined(__CYGWIN__) || defined(__MINGW64__)
+-  #include_next <sys/cdefs.h>
+-
+-#else
+-  #if defined(__cplusplus)
+-    #define __BEGIN_DECLS  extern "C" {
+-    #define __END_DECLS    }
+-  #else
+-    #define __BEGIN_DECLS
+-    #define __END_DECLS
+-  #endif
+-#endif
++#include <sys/djcdefs.h>
+ 
+-
+-#if defined(__GNUC__)
+-  #define W32_GCC_VERSION  (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + \
+-                            __GNUC_PATCHLEVEL__)
+-#else
+-  #define W32_GCC_VERSION  0
+-#endif
++#define W32_GCC_VERSION  (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+ 
+ /*
+  * Macros for gcc 2.5+ features.
+@@ -95,14 +66,8 @@
+   #define W32_ATTR_NORETURN()       __attribute__ ((noreturn))         /* function never returns */
+   #define W32_ARG_NONNULL(_1)       __attribute__ ((nonnull(_1)))      /* argument cannot be NULL */
+ #else
+-  #if defined(__clang__)
+-    #define W32_ATTR_PRINTF(_1,_2)  __attribute__ ((format(printf,_1,_2)))
+-    #define W32_ATTR_SCANF(_1,_2)   __attribute__ ((format(scanf,_1,_2)))
+-  #else
+-    #define W32_ATTR_PRINTF(_1,_2)
+-    #define W32_ATTR_SCANF(_1,_2)
+-  #endif
+-
++  #define W32_ATTR_PRINTF(_1,_2)
++  #define W32_ATTR_SCANF(_1,_2)
+   #define W32_ATTR_NOINLINE()
+   #define W32_ATTR_REGPARM(_n)
+   #define W32_ATTR_NORETURN()
+@@ -114,128 +79,17 @@
+ #if (W32_GCC_VERSION >= 30100)
+   #define W32_ATTR_DEPRECATED    __attribute__((__deprecated__))
+ #else
+-  #if defined(_MSC_VER) && (_MSC_VER >= 1700)  /* Visual Studio 2011+ ? */
+-    #define W32_ATTR_DEPRECATED  __declspec(deprecated)
+-  #else
+-    #define W32_ATTR_DEPRECATED
+-  #endif
+-#endif
+-
+-/* Detection of the various Borland/CodeGearC/CBuilder versions.
+- * Not sure about the '0x0700' value.
+- *
+- * Refs: https://sourceforge.net/p/predef/wiki/Compilers/
+- *       https://en.wikipedia.org/wiki/C%2B%2BBuilder
+- */
+-#if defined(__BORLANDC__)
+-  #if (__BORLANDC__ >= 0x0700)
+-  //#pragma message ("I am Embarcadero")
+-    #define W32_IS_EMBARCADERO 1
+-  #endif
+-
+-  #if defined(__CODEGEARC__)
+-  //#pragma message ("I am CodeGearC")
+-    #define W32_IS_CODEGEARC 1
+-  #endif
+-#endif
+-
+-#if defined(__CCDL__)    /* LadSoft compiler */
+-  #define cdecl _cdecl
+-
+-#elif !defined(cdecl) && (defined(__MINGW32__) || defined(__CYGWIN__))
+-  #define cdecl __attribute__((__cdecl__))
+-#endif
+-
+-#if defined(_MSC_VER) || defined(__POCC__)
+-  #undef cdecl
+-  #if (_MSC_VER <= 600) && !defined(__POCC__)
+-    #define cdecl _cdecl
+-    #undef  __STDC__
+-    #define __STDC__ 1
+-  #else
+-    #define cdecl __cdecl
+-  #endif
+-  #define NO_ANSI_KEYWORDS
+-
+-#elif defined(__DMC__)    /* Digital Mars compiler */
+-  #define NO_UNDERSCORE __syscall
+-  /* e.g. int NO_UNDERSCORE foo (void); */
++  #define W32_ATTR_DEPRECATED
+ #endif
+ 
+ #ifndef cdecl
+ #define cdecl
+ #endif
+ 
+-/*
+- * MinGW-w64 defines both __MINGW64__ *and* __MINGW32__, but __MINGW64__
+- * is only defined for _WIN64 targets. __MINGW64_VERSION_[MAJOR|MINOR]
+- * is defined in MinGW64's <_mingw.h>.
+- *
+- * MinGW-w64. I.e. "GCC for both x64 & x86 Windows".
+- * This is not from the mingw.org folks, but from these:
+- *   http://mingw-w64.sourceforge.net/
+- *
+- * Or to make this even more confusing, the TDM-gcc should act the same
+- * as MinGW-w64:
+- *   http://tdm-gcc.tdragon.net/
+- *
+- * It uses it's own versioning.
+- *
+- * Using the "official" 32-bit MinGW with Watt-32, the W32_MINGW_VER() macro
+- * tests for some structs and prototypes added in MinGW 3.1 (?). For newer
+- * MinGW-[32|64] versions, we just assume e.g. 'struct timezone' etc. are
+- * available.
+- */
+-#if !defined(__MINGW32__)
+-  #define W32_MINGW_VER(major,minor)  0
+-#else
+-  #include <_mingw.h>
+-
+-  #if defined(__MINGW64_VERSION_MAJOR)
+-    /*
+-     * '__MINGW64_VERSION_[MAJOR|MINOR]' is defined in _mingw.h in the
+-     * MinGW-w64 project.
+-     * Not a typo; MinGW-64 doesn't define __MINGW64_[MAJOR|MINOR]_VERSION
+-     */
+-    #define W32_MINGW_VER(major,minor)  1
+-    #define W32_IS_MINGW64              1
+-
+-  #elif defined(__MINGW_MAJOR_VERSION)
+-    /*
+-     * '__MINGW_MAJOR_VERSION' is defined through _mingw.h in MinGW-RT v4+.
+-     */
+-    #define W32_MINGW_VER(major,minor)  1
+-
+-  #else /* plain old mingw.org (prior to v4.0): */
+-    #define W32_MINGW_VER(major,minor) (__MINGW32_MAJOR_VERSION > (major) ||   \
+-                                        (__MINGW32_MAJOR_VERSION == (major) && \
+-                                         __MINGW32_MINOR_VERSION >= (minor)))
+-  #endif
+-#endif
+-
+-#if defined(_MSC_VER) && !defined(__POCC__)
+-  /*
+-   * All MS compilers (Quick-C/Visual-C for DOS, VC for Windows) insists
+-   * that signal-handlers, atexit functions and var-arg functions must be
+-   * defined as cdecl. This is only an issue if a program is using 'fastcall'
+-   * globally (cl option '-Gr').
+-   * Ref. the use of 'WINAPIV' in the Windows SDKs.
+-   *
+-   * But Watcom's register call doesn't need this. (wcc386 -ecf)
+-   */
+-  #undef  MS_CDECL
+-  #define MS_CDECL   cdecl
++#define W32_MINGW_VER(major,minor)  0
+ 
+-  /* See <sys/w32api.h> for the rationale behind 'W32_CALL'. It's
+-   * currently forced to 'cdecl' on Windows. Thus 'W32_CDECL' and 'MS_CDECL'
+-   * should be important for MSVC users on Windows only. But I'm not
+-   * sure....
+-   */
+-  #define W32_CDECL  cdecl
+-#else
+-  #define MS_CDECL
+-  #define W32_CDECL
+-#endif
++#define MS_CDECL
++#define W32_CDECL
+ 
+ 
+ /*
+@@ -245,52 +99,17 @@
+  * in between its arguments.  __CONCAT can also concatenate double-quoted
+  * strings produced by the __STRING macro, but this only works with ANSI C.
+  */
+-#if ((defined(__STDC__) && __STDC__) || defined(__cplusplus) || \
+-    defined(__TURBOC__)) && !defined(__CYGWIN__)
+-  #undef  __P
+-  #define __P(protos)     protos        /* full-blown ANSI C */
+-  #define __CONCAT(x,y)   x ## y
+-  #define __STRING(x)     #x
+-
+-  #define __const         const         /* define reserved names to standard */
+-  #define __signed        signed
+-/*#define __volatile      volatile */
+-  #if defined(__cplusplus)
+-    #define __inline      inline        /* convert to C++ keyword */
+-  #elif !defined(__GNUC__) && !defined(_MSC_VER) && !defined(__WATCOMC__)
+-    #define __inline                    /* delete GCC/MSC/Watcom keyword */
+-  #endif
+-
+-#else
+-  #define __P(protos)     ()            /* traditional C preprocessor */
+-  #define __CONCAT(x,y)   x/**/y
+-  #define __STRING(x)     "x"
+-
+-  #if !defined(__GNUC__) && !defined(_MSC_VER) && !defined(__WATCOMC__)
+-    #define __inline
+-  #endif
++#undef  __P
++#define __P(protos)     protos        /* full-blown ANSI C */
++#define __CONCAT(x,y)   x ## y
++#define __STRING(x)     #x
++
++#define __const         const         /* define reserved names to standard */
++#define __signed        signed
++#if defined(__cplusplus)
++  #define __inline      inline        /* convert to C++ keyword */
++#endif
+ 
+-  #if !defined(__GNUC__)
+-    #define __const                     /* delete pseudo-ANSI C keywords */
+-    #define __signed
+- /* #define __volatile */
+-
+-    /*
+-     * In non-ANSI C environments, new programs will want ANSI-only C keywords
+-     * deleted from the program and old programs will want them left alone.
+-     * When using a compiler other than gcc, programs using the ANSI C keywords
+-     * const, inline etc. as normal identifiers should define -DNO_ANSI_KEYWORDS.
+-     * When using "gcc -traditional", we assume that this is the intent; if
+-     * __GNUC__ is defined but __STDC__ is not, we leave the new keywords alone.
+-     */
+-    #if !defined(NO_ANSI_KEYWORDS)
+-      #define const                     /* delete ANSI C keywords */
+-      #define inline
+-      #define signed
+-      #define volatile
+-    #endif
+-  #endif  /* !__GNUC__ */
+-#endif    /* (__STDC__ || __cpluplus) && !__CYGWIN__ */
+ 
+ /*
+  * GCC1 and some versions of GCC2 declare dead (non-returning) and
+@@ -317,7 +136,7 @@
+  * Macros for gcc 4.6+ Pragmas. Ref.:
+  * http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html
+  */
+-#if (W32_GCC_VERSION >= 40600) || defined(__clang__)
++#if (W32_GCC_VERSION >= 40600)
+   #define W32_GCC_PRAGMA(x)  _Pragma (#x)
+ #else
+   #define W32_GCC_PRAGMA(x)
+@@ -352,59 +171,12 @@
+   #define W32_GCC_INLINE extern __inline__
+ #endif
+ 
+-#if defined(__GNUC__)
+-  #define W32_INLINE W32_GCC_INLINE
+-#else
+-  #define W32_INLINE __inline
+-#endif
++#define W32_INLINE W32_GCC_INLINE
+ 
+ #define W32_CLANG_PACK_WARN_OFF()
+ #define W32_CLANG_PACK_WARN_DEF()
+ 
+-#if defined(__clang__)
+-  /*
+-   * To suppress clang warnings like:
+-   *   Array access (from variable 'x') results in a null pointer dereference
+-   *
+-   * in statements like:
+-   *   if (!x[0]) {
+-   *      ...
+-   *
+-   * So one could write it like:
+-   *   if (W32_CLANG_NONNULL(x) || !x[0]) {
+-   *      ...
+-   */
+-  #define W32_CLANG_NONNULL(x) !(x)
+-
+-  #if (__clang_major__ >= 6)
+-    /*
+-     * clang v6.x introdused several new warnings. Especially annoying when including
+-     * <sys/pack_on.h> and <sys/pack_off.h> is this:
+-     *   the current #pragma pack aligment value is modified in the included file [-Wpragma-pack]
+-     *
+-     * Control these warnings using the below macros.
+-     * Always used when building *or* using Watt-32. Used like this:
+-     *
+-     *  W32_CLANG_PACK_WARN_OFF()  // "push" warning state and turn off "-Wpragma-pack".
+-     *  #include <sys/pack_on.h>
+-     *
+-     *  ... some structures that needs tight 1-byte packing of members.
+-     *
+-     *  #include <sys/pack_off.h>  // restore default packing
+-     *  W32_CLANG_PACK_WARN_DEF()  // "pop" the warning set by 'W32_CLANG_PACK_WARN_OFF()'.
+-     */
+-    #undef  W32_CLANG_PACK_WARN_OFF
+-    #define W32_CLANG_PACK_WARN_OFF() W32_GCC_PRAGMA (clang diagnostic push) \
+-                                      W32_GCC_PRAGMA (clang diagnostic ignored "-Wpragma-pack")
+-
+-    #undef  W32_CLANG_PACK_WARN_DEF
+-    #define W32_CLANG_PACK_WARN_DEF()  W32_GCC_PRAGMA (clang diagnostic pop)
+-  #endif
+-
+-#else
+-  #define W32_CLANG_NONNULL(x) 0
+-#endif
+-
++#define W32_CLANG_NONNULL(x) 0
+ 
+ /*
+  * Delete pseudo-keywords wherever they are not available or needed.
+@@ -426,13 +198,6 @@
+   /*
+    * min() & max() macros
+    */
+-  #if defined(__HIGHC__)
+-    #undef  min
+-    #undef  max
+-    #define min(a,b) _min(a,b)  /* intrinsic functions */
+-    #define max(a,b) _max(a,b)
+-  #endif
+-
+   #ifndef min
+   #define min(a,b) (((a) < (b)) ? (a) : (b))
+   #endif
+@@ -449,24 +214,16 @@
+  * Public domain.
+  */
+ 
+-/* #define _C_LABEL(x) __CONCAT(_,x) */
+-
+-#if defined(__GNUC__)
+-  #define __indr_reference(sym,alias)                \
+-          __asm__(".stabs \"_" #alias "\",11,0,0,0");\
+-          __asm__(".stabs \"_" #sym "\",1,0,0,0");
+-
+-  #define __warn_references(sym,msg)                 \
+-          __asm__(".stabs \"" msg "\",30,0,0,0");    \
+-          __asm__(".stabs \"_" #sym "\",1,0,0,0");
++#define __indr_reference(sym,alias)                \
++        __asm__(".stabs \"_" #alias "\",11,0,0,0");\
++        __asm__(".stabs \"_" #sym "\",1,0,0,0");
++
++#define __warn_references(sym,msg)                 \
++        __asm__(".stabs \"" msg "\",30,0,0,0");    \
++        __asm__(".stabs \"_" #sym "\",1,0,0,0");
+ 
+-  #define __IDSTRING(name,string)  \
+-          static const char name[] __attribute__((__unused__)) = string
+-#else
+-  #define __indr_reference(sym,alias)
+-  #define __warn_references(sym,msg)
+-  #define __IDSTRING(name,string)  static const char name[] = string
+-#endif
++#define __IDSTRING(name,string)  \
++        static const char name[] __attribute__((__unused__)) = string
+ 
+ #define __RCSID(_s)                __IDSTRING(rcsid,_s)
+ #define __COPYRIGHT(_s)            __IDSTRING(copyright,_s)
+diff -Naur old/inc/sys/ioctl.h new/inc/sys/ioctl.h
+--- old/inc/sys/ioctl.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/ioctl.h	2025-08-08 10:15:20.260335393 +0200
+@@ -139,7 +139,7 @@
+   #if 0
+     #include "/dev/env/DJDIR/include/sys/ioctl.h"  /* ioctl() */
+   #else
+-    #include_next <sys/ioctl.h>                    /* ioctl() */
++    #include <sys/djioctl.h>                    /* ioctl() */
+   #endif
+ #endif
+ 
+diff -Naur old/inc/sys/mbuf.h new/inc/sys/mbuf.h
+--- old/inc/sys/mbuf.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/mbuf.h	2025-08-08 10:15:20.260335393 +0200
+@@ -1,6 +1,10 @@
+ #ifndef __SYS_MBUF_H
+ #define __SYS_MBUF_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /* moved from <sys/cdefs.h>
+  */
+ struct mbuf {
+@@ -13,4 +17,8 @@
+        unsigned      cnt;
+      };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/sys/pack_off.h new/inc/sys/pack_off.h
+--- old/inc/sys/pack_off.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/pack_off.h	2025-08-08 10:15:20.264335466 +0200
+@@ -42,32 +42,6 @@
+ --*/
+ 
+ #if !(defined(lint) || defined(_lint))
+-  #if defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
+-    #pragma option push -b -a8 -pc -A- /*P_O_Push*/
+-  #endif
+-
+-  #if defined(_MSC_VER) && (_MSC_VER >= 800)
+-    #pragma warning(disable:4103)
+-  #endif
+-
+-  #if defined(__CCDL__)
+-    #pragma pack()
+-  #elif defined(__HIGHC__)
+-    #pragma pop_align_members();
+-  #elif defined(__WATCOMC__) && (__WATCOMC__ >= 1000)
+-    #pragma pack(__pop);
+-  #elif (defined(_MSC_VER) && (_MSC_VER > 800))            || \
+-        (defined(__GNUC__) && ((__GNUC__ > 2)              || \
+-              (__GNUC__ == 2 && __GNUC_MINOR__ > 95)))     || \
+-        (defined(__BORLANDC__) && (__BORLANDC__ >= 0x500)) || \
+-         defined(__POCC__) || defined(__LCC__)
+-    #pragma pack(pop)
+-  #else
+-    #pragma pack()
+-  #endif
+-
+-  #if defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
+-    #pragma option pop  /*P_O_Pop*/
+-  #endif
++  #pragma pack()
+ #endif
+ 
+diff -Naur old/inc/sys/pack_on.h new/inc/sys/pack_on.h
+--- old/inc/sys/pack_on.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/pack_on.h	2025-08-08 10:15:20.264335466 +0200
+@@ -40,30 +40,6 @@
+ --*/
+ 
+ #if !(defined(lint) || defined(_lint))
+-  #if defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
+-    #pragma option push -b -a8 -pc -A- /*P_O_Push*/
+-  #endif
+-
+-  #if defined(_MSC_VER) && (_MSC_VER >= 800)
+-    #pragma warning(disable:4103)
+-  #endif
+-
+-  #if defined(__HIGHC__)
+-    #pragma push_align_members(1);
+-  #elif defined(__WATCOMC__) && (__WATCOMC__ >= 1000)
+-    #pragma pack(__push,1);
+-  #elif (defined(_MSC_VER) && (_MSC_VER > 800))            || \
+-        (defined(__GNUC__) && ((__GNUC__ > 2)              || \
+-              (__GNUC__ == 2 && __GNUC_MINOR__ > 95)))     || \
+-        (defined(__BORLANDC__) && (__BORLANDC__ >= 0x500)) || \
+-        defined(__POCC__) || defined(__LCC__)
+-    #pragma pack(push,1)
+-  #else
+-    #pragma pack(1)
+-  #endif
+-
+-  #if defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
+-    #pragma option pop  /*P_O_Pop*/
+-  #endif
++  #pragma pack(1)
+ #endif
+ 
+diff -Naur old/inc/sys/param.h new/inc/sys/param.h
+--- old/inc/sys/param.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/param.h	2025-08-08 10:15:20.264335466 +0200
+@@ -32,4 +32,6 @@
+ #include <sys/swap.h>
+ #endif
+ 
++#include <sys/djparam.h>
++
+ #endif
+diff -Naur old/inc/sys/poll.h new/inc/sys/poll.h
+--- old/inc/sys/poll.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/poll.h	2025-08-08 10:15:20.264335466 +0200
+@@ -4,6 +4,10 @@
+ #ifndef __SYS_POLL_H
+ #define __SYS_POLL_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #define POLLIN   0x0001
+ #define POLLPRI  0x0002   /* not used */
+ #define POLLOUT  0x0004
+@@ -19,4 +23,8 @@
+ 
+ extern int poll (struct pollfd *p, int num, int timeout);
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/sys/socket.h new/inc/sys/socket.h
+--- old/inc/sys/socket.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/socket.h	2025-08-08 10:15:20.264335466 +0200
+@@ -67,6 +67,8 @@
+ #include <netinet/in.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ /*
+  * Definitions related to sockets: types, address families, options.
+  */
+@@ -283,8 +285,6 @@
+ 
+ W32_CLANG_PACK_WARN_DEF()
+ 
+-__BEGIN_DECLS
+-
+ W32_FUNC int W32_CALL accept (int, struct sockaddr *, socklen_t *);
+ W32_FUNC int W32_CALL bind (int, const struct sockaddr *, socklen_t);
+ W32_FUNC int W32_CALL closesocket (int s);
+diff -Naur old/inc/sys/syslog.h new/inc/sys/syslog.h
+--- old/inc/sys/syslog.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/syslog.h	2025-08-08 10:15:20.264335466 +0200
+@@ -41,6 +41,18 @@
+ #ifndef __SYS_SYSLOG_H
+ #define __SYS_SYSLOG_H
+ 
++#include <stdarg.h>
++
++#ifndef __SYS_W32API_H
++#include <sys/w32api.h>
++#endif
++
++#ifndef __SYS_CDEFS_H
++#include <sys/cdefs.h>
++#endif
++
++__BEGIN_DECLS
++
+ #ifndef _PATH_LOG
+ #define _PATH_LOG   "/var/run/log"
+ #endif
+@@ -137,18 +149,6 @@
+ #define LOG_NOWAIT 0x10   /* don't wait for console forks: DEPRECATED */
+ #define LOG_PERROR 0x20   /* log to stderr as well */
+ 
+-#include <stdarg.h>
+-
+-#ifndef __SYS_W32API_H
+-#include <sys/w32api.h>
+-#endif
+-
+-#ifndef __SYS_CDEFS_H
+-#include <sys/cdefs.h>
+-#endif
+-
+-__BEGIN_DECLS
+-
+ W32_FUNC void W32_CALL  closelog   (void);
+ W32_FUNC void W32_CALL  openlog    (const char *, int, int);
+ W32_FUNC int  W32_CALL  setlogmask (int);
+diff -Naur old/inc/sys/un.h new/inc/sys/un.h
+--- old/inc/sys/un.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/un.h	2025-08-08 10:15:20.264335466 +0200
+@@ -20,11 +20,19 @@
+ #define UNIX_PATH_MAX  108
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ struct sockaddr_un {
+        sa_family_t sun_family;                 /* address family AF_LOCAL/AF_UNIX */
+        char        sun_path [UNIX_PATH_MAX];   /* room for socket address */
+      };
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ /* Evaluates the actual length of "sockaddr_un" structure.
+  */
+ #define SUN_LEN(p)  ( (size_t) (((struct sockaddr_un*) NULL)->sun_path) + strlen((p)->sun_path) )
+diff -Naur old/inc/sys/werrno.h new/inc/sys/werrno.h
+--- old/inc/sys/werrno.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/werrno.h	2025-08-08 10:15:20.264335466 +0200
+@@ -17,6 +17,8 @@
+ #include <sys/cdefs.h>
+ #endif
+ 
++__BEGIN_DECLS
++
+ /* When doing "gcc -MM" with gcc 3.0 we must include <sys/version.h>
+  * (via stdio.h) in order for __DJGPP__ to be defined
+  */
+@@ -193,5 +195,6 @@
+ #endif
+ 
+ #endif  /* W32_NEW_ERRNO */
++__END_DECLS
+ #endif  /* __SYS_WERRNO_H */
+ 
+diff -Naur old/inc/sys/wtime.h new/inc/sys/wtime.h
+--- old/inc/sys/wtime.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/wtime.h	2025-08-08 10:18:30.143809356 +0200
+@@ -47,6 +47,8 @@
+ #endif
+ 
+ #if !defined(__DJGPP__) && !defined(__CYGWIN__)
++  __BEGIN_DECLS
++
+   #if !W32_MINGW_VER(3,10)
+     struct timezone {         /* Added in MinGW 3.1 */
+            int tz_minuteswest;
+@@ -63,8 +65,6 @@
+   #define STRUCT_TIMEZONE_DEFINED
+   #define STRUCT_TMS_DEFINED
+ 
+-  __BEGIN_DECLS
+-
+   #define ITIMER_REAL  0
+   #define ITIMER_PROF  1
+ 
+@@ -105,7 +105,7 @@
+   #define W32_HAVE_STRUCT_TIMESPEC
+ #endif
+ 
+-#if !defined(W32_HAVE_STRUCT_TIMESPEC)
++#if !defined(W32_HAVE_STRUCT_TIMESPEC) && !defined(__DJGPP__)
+   #define _STRUCT_TIMESPEC
+   #define __struct_timespec_defined    /* For MinGW 3.21+ */
+ 
+diff -Naur old/inc/sys/wtypes.h new/inc/sys/wtypes.h
+--- old/inc/sys/wtypes.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/sys/wtypes.h	2025-08-08 10:15:20.264335466 +0200
+@@ -50,6 +50,8 @@
+ #ifndef __SYS_WTYPES_H
+ #define __SYS_WTYPES_H
+ 
++#define WATT32_NO_OLDIES 1
++
+ #ifndef __SYS_W32API_H
+ #include <sys/w32api.h>
+ #endif
+@@ -95,6 +97,10 @@
+   #endif
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #if !defined(HAVE_U_INT64_T) && !defined(u_int64_t)
+   #if defined(__CYGWIN__)
+     #undef  HAVE_U_INT32_T
+@@ -207,10 +213,7 @@
+ 
+ #if !defined(IOVEC_DEFINED)
+   #define IOVEC_DEFINED
+-  struct iovec {
+-         void *iov_base;
+-         int   iov_len;
+-       };
++  #include <sys/uio.h>
+ #endif
+ 
+ #if !defined(socklen_t)
+@@ -334,4 +337,8 @@
+  */
+ typedef int (W32_CALL *icmp_upcall) (void *socket, BYTE icmp_type, BYTE icmp_code);
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff -Naur old/inc/syslog.h new/inc/syslog.h
+--- old/inc/syslog.h	2025-08-08 10:13:54.914781120 +0200
++++ new/inc/syslog.h	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-/*!\file inc/syslog.h
+- * syslog header.
+- */
+-/*
+- * POSIX requires (AFAIK) this file in a base-dir
+- */
+-#ifndef __SYS_SYSLOG_H
+-#include <sys/syslog.h>
+-#endif
+diff -Naur old/src/get_ip.c new/src/get_ip.c
+--- old/src/get_ip.c	2025-08-08 10:13:54.902780902 +0200
++++ new/src/get_ip.c	2025-08-08 10:15:20.264335466 +0200
+@@ -238,7 +238,7 @@
+ 
+ void W32_CALL freehostent (struct hostent *he)
+ {
+-  char *p;
++  char **p;
+ 
+   SOCK_DEBUGF (("\nfreehostent: %s ", he->h_name));
+ 
+@@ -248,11 +248,11 @@
+   free (he->h_name);
+   he->h_name = NULL;
+ 
+-  for (p = he->h_addr_list[0]; p; p++)
+-      free (p);
++  for (p = he->h_addr_list; p; p++)
++      free (*p);
+ 
+-  for (p = he->h_aliases[0]; p; p++)
+-      free (p);
++  for (p = he->h_aliases; p; p++)
++      free (*p);
+ 
+   free (he->h_aliases);
+   free (he->h_addr_list);
+diff -Naur old/src/syslog.c new/src/syslog.c
+--- old/src/syslog.c	2025-08-08 10:13:54.906780975 +0200
++++ new/src/syslog.c	2025-08-08 10:15:20.264335466 +0200
+@@ -268,7 +268,7 @@
+ {
+   struct servent *sp;
+   struct hostent *hp;
+-  static char buf [80];
++  static char buf [96];
+ 
+   *errbuf = NULL;
+ 

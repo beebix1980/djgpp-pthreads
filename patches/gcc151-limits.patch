@@ -1,0 +1,17 @@
+# This GCC 15.1.0 patch ensures that the DJGPP limits.h header
+# is also included from gcc's limits.h
+#
+diff -Naur old/gcc/glimits.h new/gcc/glimits.h
+--- old/gcc/glimits.h	2025-04-25 10:18:00.000000000 +0200
++++ new/gcc/glimits.h	2025-08-06 19:58:37.942924847 +0200
+@@ -24,6 +24,10 @@
+ #ifndef _LIMITS_H___
+ #define _LIMITS_H___
+ 
++#ifdef __DJGPP__
++#include_next <limits.h>
++#endif
++
+ /* Number of bits in a `char'.  */
+ #undef CHAR_BIT
+ #define CHAR_BIT __CHAR_BIT__

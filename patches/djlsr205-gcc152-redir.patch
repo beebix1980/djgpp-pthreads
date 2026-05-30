@@ -1,0 +1,35 @@
+diff -Naur old/src/utils/redir.c new/src/utils/redir.c
+--- old/src/utils/redir.c	2015-05-02 06:32:36.000000000 +0200
++++ new/src/utils/redir.c	2025-12-04 09:46:03.885687214 +0100
+@@ -234,8 +234,11 @@
+ 
+   /* Don't let us crash because some naughty program left
+      the FPU in shambles.  */
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
+   _clear87();
+   _fpreset();
++#pragma GCC diagnostic pop
+ 
+   if (argc < 2)
+     usage();
+@@ -331,13 +334,19 @@
+ 
+   /* We do NOT want `redir' to abort if the child is interrupted
+      or crashes for any reason.  */
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
+   _control87(0x033f, 0xffff);	/* mask all numeric exceptions */
++#pragma GCC diagnostic pop
+   __djgpp_exception_toggle();
+   rv = run_program(ac, av, ac - argc + 1);
+   __djgpp_exception_toggle();
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
+   _control87(0x033f, 0xffff);	/* in case the child unmasked some */
+   _clear87();			/* clean up after the child, just in case */
+   _fpreset();
++#pragma GCC diagnostic pop
+   gettimeofday(&endt, NULL);
+ 
+   if (rv < 0)

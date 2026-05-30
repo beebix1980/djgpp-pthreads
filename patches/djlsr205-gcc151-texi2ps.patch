@@ -1,0 +1,94 @@
+diff -Naur old/src/utils/texi2ps/texi2ps.c new/src/utils/texi2ps/texi2ps.c
+--- old/src/utils/texi2ps/texi2ps.c	2011-12-23 07:44:46.000000000 +0100
++++ new/src/utils/texi2ps/texi2ps.c	2025-08-07 14:13:01.893196469 +0200
+@@ -32,6 +32,9 @@
+ #include "ps.h"
+ #include "ifset.h"
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
++
+ int suspend_output = 0;
+ int bye = 0;
+ 
+@@ -42,7 +45,7 @@
+ static int fill_mode;
+ static int show_menus = 0;
+ 
+-typedef void FUNCTION ();	/* So I can say FUNCTION *foo; */
++typedef void FUNCTION (...);	/* So I can say FUNCTION *foo; */
+ 
+ /* The list of commands that we hack in texinfo.  Each one
+    has an associated function.  When the command is encountered in the
+@@ -151,8 +154,8 @@
+ #define BRACE_WORD_ARGS 4
+ #define SELF_ARGS 5
+ 
+-void cm_example();
+-void cm_samp();
++void cm_example(int, char*);
++void cm_samp(int, char*);
+ 
+ void
+ big_font(int se, char *arg, int szup)
+@@ -448,7 +451,7 @@
+ }
+ 
+ void
+-cm_example(int se)
++cm_example(int se, char *)
+ {
+   if (se == START)
+   {
+@@ -492,7 +495,7 @@
+ void cm_flushleft(){}
+ void cm_flushright(){}
+ 
+-void cm_italic();
++void cm_italic(int);
+ void
+ cm_footnote(int se)
+ {
+@@ -518,7 +521,7 @@
+   }
+ }
+ 
+-void cm_table();
++void cm_table(int, char *);
+ void
+ cm_ftable(int se, char *arg)
+ {
+@@ -727,7 +730,7 @@
+ void cm_point(){}
+ void cm_print(){}
+ void cm_printindex(){}
+-void cm_xref();
++void cm_xref(int, char *);
+ void
+ cm_pxref(int se, char *a)
+ {
+@@ -756,7 +759,7 @@
+ }
+ 
+ void
+-cm_samp(int se)
++cm_samp(int se, char *)
+ {
+   cm_code(se);
+ }
+@@ -818,7 +821,7 @@
+ void
+ cm_smallexample(int se)
+ {
+-  cm_example(se);
++  cm_example(se, (char*)NULL);
+ }
+ 
+ void cm_smalllisp(){}
+@@ -1484,3 +1487,6 @@
+   screenio_print("\n%d pages generated", current_page);
+   return 0;
+ }
++
++/* -Wincompatible-pointer-types */
++#pragma GCC diagnostic pop

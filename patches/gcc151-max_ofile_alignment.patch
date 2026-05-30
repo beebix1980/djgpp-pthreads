@@ -1,0 +1,33 @@
+# This GCC 15.1.0 patch changes the maximum alignas value from 16 to 64 for
+# DJGPP by changing the value of MAX_OFILE_ALIGNMENT from 128 to 512 in
+# gcc/config/i386/xm-djgpp.h
+#
+# For some reason the above is not enough, also modify gcc/defaults.h
+#
+# This patch requires that binutils is also patched to increase the segment
+# alignment of coff-go32 and coff-go32-exe files to 64 bytes in order to work!
+#
+diff -Naur old/gcc/config/i386/xm-djgpp.h new/gcc/config/i386/xm-djgpp.h
+--- old/gcc/config/i386/xm-djgpp.h	2025-04-25 10:18:00.000000000 +0200
++++ new/gcc/config/i386/xm-djgpp.h	2025-08-06 19:54:02.169869868 +0200
+@@ -108,7 +108,7 @@
+     }
+ 
+ #undef MAX_OFILE_ALIGNMENT
+-#define MAX_OFILE_ALIGNMENT 128
++#define MAX_OFILE_ALIGNMENT 512
+ 
+ /* DJGPP versions up to current (2.05) have ftw.h but only ftw() not nftw().
+    Disable use of ftw.h */
+diff -Naur old/gcc/defaults.h new/gcc/defaults.h
+--- old/gcc/defaults.h	2025-04-25 10:18:00.000000000 +0200
++++ new/gcc/defaults.h	2025-08-06 19:54:02.169869868 +0200
+@@ -1076,7 +1076,7 @@
+ 
+ /* Biggest alignment supported by the object file format of this machine.  */
+ #ifndef MAX_OFILE_ALIGNMENT
+-#define MAX_OFILE_ALIGNMENT BIGGEST_ALIGNMENT
++#define MAX_OFILE_ALIGNMENT 512
+ #endif
+ 
+ #ifndef FRAME_GROWS_DOWNWARD

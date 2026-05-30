@@ -1,0 +1,14 @@
+diff -Naur old/src/libc/emu387/npxsetup.c new/src/libc/emu387/npxsetup.c
+--- old/src/libc/emu387/npxsetup.c	1999-12-24 19:52:59.000000000 +0100
++++ new/src/libc/emu387/npxsetup.c	2025-12-04 02:46:16.124611775 +0100
+@@ -72,7 +72,10 @@
+   if (cp && (tolower((unsigned char)cp[0]) == 'y'))
+   {
+     _8087 = 3;
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
+     _control87(0x033f, 0xffff);	/* mask all numeric exceptions */
++#pragma GCC diagnostic pop
+     return;
+   }
+   if (cp && (tolower((unsigned char)cp[0]) == 'n'))

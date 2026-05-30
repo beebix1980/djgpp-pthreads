@@ -1,0 +1,12 @@
+diff -Naur old/src/libm/math/k_standard.c new/src/libm/math/k_standard.c
+--- old/src/libm/math/k_standard.c	1998-10-04 09:48:42.000000000 +0200
++++ new/src/libm/math/k_standard.c	2025-08-07 13:08:08.737178951 +0200
+@@ -779,5 +779,8 @@
+ 	}
+ 	if (exc.err != 0)
+ 	    errno = exc.err;
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+ 	return exc.retval; 
++#pragma GCC diagnostic pop
+ }

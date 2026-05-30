@@ -1,0 +1,108 @@
+# DJGPP fixup for GCC 15.1.0: Add support for DJGPP's Pth207 (POSIX threads).
+#
+# This patch allows GCC 15.1.0 to use and link with Pth207.
+# It also enables the use of std::thread and other C++ concurrency features.
+#
+# A -pthread option is added to GCC that enables POSIX threads, it shall
+# define the _REENTRANT macro and automatically links with the POSIX threads
+# and sockets libraries when needed.
+#
+# File: gcc/config/i386/djgpp.h
+#  - Modify CPP_SPEC to let the preprocessor define the _REENTRANT macro
+#    when -pthread is in use.
+#  - Modify LIB_SPEC to link with the pthread and socket libraries
+#    when -pthread is in use.
+#
+# File: gcc/config/i386/djgpp.opt
+#  - Enable/Add the -pthread gcc option.
+#
+# File: gcc/config.gcc
+#  - Enable posix threads in the DJGPP section, ie. set thread_file='posix'.
+#
+# File: libgcc/gthr-posix.h
+#  - In Pth207 pthread_detach is a macro, use __pthread_detach instead.
+#
+# File: libstdc++-v3/include/bits/std_thread.h
+#  - Fix C++11 std::this_thread::yield().
+#    It does not work because _GLIBCXX_USE_SCHED_YIELD is not defined
+#    when including <bits/std_thread.h> so __gthread_yield() is not called...
+#    __gthread_yield() would have called sched_yield() (but we want to
+#    call pthread_yield_np() instead).
+#
+diff -Naur old/gcc/config/i386/djgpp.h new/gcc/config/i386/djgpp.h
+--- old/gcc/config/i386/djgpp.h	2025-08-07 14:29:21.694964635 +0200
++++ new/gcc/config/i386/djgpp.h	2025-08-07 14:30:42.964448971 +0200
+@@ -58,14 +58,14 @@
+   while (0)
+ 
+ #undef CPP_SPEC
+-#define CPP_SPEC "-remap %{posix:-D_POSIX_SOURCE}"
++#define CPP_SPEC "-remap %{posix:-D_POSIX_SOURCE} %{pthread:-D_REENTRANT} %{no-pthread:-U_REENTRANT}"
+ 
+ #undef POST_LINK_SPEC
+ #define POST_LINK_SPEC "stubify %{v} %{o*:%*} %{!o*:a.out}"
+ 
+ /* Always just link in 'libc.a'.  */
+ #undef LIB_SPEC
+-#define LIB_SPEC "-lc"
++#define LIB_SPEC "%{pthread:-lpthread -lsocket} -lc"
+ 
+ /* Pick the right startup code depending on the -pg flag.  */
+ #undef STARTFILE_SPEC
+diff -Naur old/gcc/config/i386/djgpp.opt new/gcc/config/i386/djgpp.opt
+--- old/gcc/config/i386/djgpp.opt	2025-08-07 14:29:21.694964635 +0200
++++ new/gcc/config/i386/djgpp.opt	2025-08-07 14:30:42.964448971 +0200
+@@ -20,3 +20,7 @@
+ 
+ posix
+ Driver
++
++pthread
++Driver
++
+diff -Naur old/gcc/config.gcc new/gcc/config.gcc
+--- old/gcc/config.gcc	2025-08-07 14:29:21.734965366 +0200
++++ new/gcc/config.gcc	2025-08-07 14:30:42.964448971 +0200
+@@ -2108,6 +2108,7 @@
+ 	TM_MULTILIB_CONFIG=`echo $TM_MULTILIB_CONFIG | sed 's/^,//'`
+ 	;;
+ i[34567]86-pc-msdosdjgpp*)
++	thread_file='posix'
+ 	xm_file=i386/xm-djgpp.h
+ 	tm_file="${tm_file} i386/unix.h i386/bsd.h i386/gas.h i386/djgpp.h i386/djgpp-stdint.h"
+ 	native_system_header_dir=/dev/env/DJDIR/include
+diff -Naur old/libgcc/gthr-posix.h new/libgcc/gthr-posix.h
+--- old/libgcc/gthr-posix.h	2025-08-07 14:29:21.130954337 +0200
++++ new/libgcc/gthr-posix.h	2025-08-07 14:30:42.968449044 +0200
+@@ -128,7 +128,7 @@
+ __gthrw(pthread_join)
+ __gthrw(pthread_equal)
+ __gthrw(pthread_self)
+-__gthrw(pthread_detach)
++__gthrw(__pthread_detach)
+ #ifndef __BIONIC__
+ __gthrw(pthread_cancel)
+ #endif
+@@ -718,7 +718,7 @@
+ __GTHREAD_INLINE int
+ __gthread_detach (__gthread_t __threadid)
+ {
+-  return __gthrw_(pthread_detach) (__threadid);
++  return __gthrw_(__pthread_detach) (__threadid);
+ }
+ 
+ __GTHREAD_INLINE int
+diff -Naur old/libstdc++-v3/include/bits/std_thread.h new/libstdc++-v3/include/bits/std_thread.h
+--- old/libstdc++-v3/include/bits/std_thread.h	2025-08-07 14:29:21.514961348 +0200
++++ new/libstdc++-v3/include/bits/std_thread.h	2025-08-07 14:30:42.968449044 +0200
+@@ -373,7 +373,9 @@
+     inline void
+     yield() noexcept
+     {
+-#if defined _GLIBCXX_HAS_GTHREADS && defined _GLIBCXX_USE_SCHED_YIELD
++#if defined __DJGPP__  && defined _REENTRANT
++      pthread_yield_np();
++#elif defined _GLIBCXX_HAS_GTHREADS && defined _GLIBCXX_USE_SCHED_YIELD
+       __gthread_yield();
+ #endif
+     }

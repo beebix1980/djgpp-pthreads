@@ -1,0 +1,24 @@
+diff -Naur old/src/djasm/djasm.c new/src/djasm/djasm.c
+--- old/src/djasm/djasm.c	2015-10-18 08:31:57.000000000 +0200
++++ new/src/djasm/djasm.c	2025-08-07 12:30:44.447748739 +0200
+@@ -482,7 +482,7 @@
+ void modrm(int mod, int reg, int rm);
+ void reg(int reg);
+ void addr32(int sib);
+-void sortsyms();
++void sortsyms(int (*sortf)(void const *,void const *));
+ 
+ int istemp(char *symname, char which);
+ int islocal(char *symname);
+diff -Naur old/src/djasm/djasm.y new/src/djasm/djasm.y
+--- old/src/djasm/djasm.y	2015-05-11 10:50:03.000000000 +0200
++++ new/src/djasm/djasm.y	2025-08-07 12:30:16.243238423 +0200
+@@ -179,7 +179,7 @@
+ void modrm(int mod, int reg, int rm);
+ void reg(int reg);
+ void addr32(int sib);
+-void sortsyms();
++void sortsyms(int (*sortf)(void const *,void const *));
+ 
+ int istemp(char *symname, char which);
+ int islocal(char *symname);

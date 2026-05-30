@@ -1,0 +1,19 @@
+# This patch is needed for __gthread_time_t which resolves to
+# struct timespec which is missing from time.h in DJLSR205.
+# __gthread_time_t is used by std::condition_variable
+#
+diff -Naur old/include/time.h new/include/time.h
+--- old/include/time.h	2015-06-04 16:55:19.000000000 +0200
++++ new/include/time.h	2025-07-10 11:23:50.090687892 +0200
+@@ -101,6 +101,11 @@
+   int tz_dsttime;
+ };
+ 
++struct timespec {
++  long tv_sec;
++  long tv_nsec;
++};
++
+ #include <sys/types.h>
+ 
+ typedef long long uclock_t;

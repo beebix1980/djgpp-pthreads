@@ -1,0 +1,30 @@
+diff -Naur old/src/libc/ansi/stdio/doprnt.c new/src/libc/ansi/stdio/doprnt.c
+--- old/src/libc/ansi/stdio/doprnt.c	2015-06-04 16:55:20.000000000 +0200
++++ new/src/libc/ansi/stdio/doprnt.c	2025-08-06 21:02:59.130209268 +0200
+@@ -26,10 +26,7 @@
+ #include <libc/local.h>
+ #include <libc/ieee.h>
+ #include <sys/cdefs.h>
+-
+-typedef enum {
+-  false = 0, true = 1
+-} bool;
++#include <stdbool.h>
+ 
+ static char decimal_point;
+ static char thousands_sep;
+diff -Naur old/src/libc/ansi/stdio/doscan.c new/src/libc/ansi/stdio/doscan.c
+--- old/src/libc/ansi/stdio/doscan.c	2015-05-23 07:50:08.000000000 +0200
++++ new/src/libc/ansi/stdio/doscan.c	2025-08-06 21:25:56.960141646 +0200
+@@ -16,10 +16,7 @@
+ #include <errno.h>
+ #include <libc/file.h>
+ #include <libc/local.h>
+-
+-typedef enum {
+-  false = 0, true = 1
+-} bool;
++#include <stdbool.h>
+ 
+ #define SPC               01
+ #define STP               02

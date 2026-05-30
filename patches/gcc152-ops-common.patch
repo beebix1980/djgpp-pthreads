@@ -1,0 +1,12 @@
+diff -Naur old/libstdc++-v3/src/filesystem/ops-common.h new/libstdc++-v3/src/filesystem/ops-common.h
+--- old/libstdc++-v3/src/filesystem/ops-common.h	2025-08-08 08:51:45.845994011 +0200
++++ new/libstdc++-v3/src/filesystem/ops-common.h	2025-12-04 19:56:02.640432527 +0100
+@@ -88,7 +88,7 @@
+   inline error_code
+   __unsupported() noexcept
+   {
+-#if defined __AVR__
++#if defined(__AVR__) || defined(__DJGPP__)
+     // avr-libc defines ENOTSUP and EOPNOTSUPP but with nonsense values.
+     // ENOSYS is defined though, so use an error_code corresponding to that.
+     // This contradicts the comment above, but we don't have much choice.

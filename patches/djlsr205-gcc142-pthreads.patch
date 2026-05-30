@@ -1,0 +1,38 @@
+diff -Naur old/src/libc/crt0/crt0.S new/src/libc/crt0/crt0.S
+--- old/src/libc/crt0/crt0.S	2015-05-02 06:32:19.000000000 +0200
++++ new/src/libc/crt0/crt0.S	2025-02-03 19:11:10.171961261 +0100
+@@ -322,6 +322,7 @@
+ 	movl	%eax, __stklen		/* store the actual stack length */
+ 
+ 	xorl	%ebp, %ebp
++	call	___crt1_initialize	/* prepare to run program */
+ 	pushl	$_frame_struct
+ 	pushl	$_CRT0_EH_FRAME_BEGIN_
+ 	call	___register_frame_info
+diff -Naur old/src/libc/crt0/crt1.c new/src/libc/crt0/crt1.c
+--- old/src/libc/crt0/crt1.c	2015-05-02 06:32:19.000000000 +0200
++++ new/src/libc/crt0/crt1.c	2025-02-03 19:09:54.398742914 +0100
+@@ -208,9 +208,10 @@
+   _osminor = v & 0xff;
+ }
+ 
++void __crt1_initialize(void);
+ 
+ void
+-__crt1_startup(void)
++__crt1_initialize(void)
+ {
+   __bss_count ++;
+   __crt0_argv = 0;
+@@ -231,6 +232,11 @@
+   __crt0_setup_arguments();
+   _npxsetup(__crt0_argv ? __crt0_argv[0] : __dos_argv0);
+   _crt0_init_mcount();
++}
++
++void
++__crt1_startup(void)
++{
+   __main();
+   errno = 0;	/* ANSI says errno should be zero at program startup */
+   exit(main(__crt0_argc, __crt0_argv, _environ));

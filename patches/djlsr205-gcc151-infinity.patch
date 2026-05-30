@@ -1,0 +1,42 @@
+diff -Naur old/src/libc/compat/stdlib/ecvtbuf.c new/src/libc/compat/stdlib/ecvtbuf.c
+--- old/src/libc/compat/stdlib/ecvtbuf.c	2002-10-16 16:34:29.000000000 +0200
++++ new/src/libc/compat/stdlib/ecvtbuf.c	2025-08-07 11:29:23.577613971 +0200
+@@ -40,7 +40,7 @@
+ char *
+ ecvtbuf (double value, int ndigits, int *decpt, int *sign, char *buf)
+ {
+-  static char INFINITY[] = "Infinity";
++  static char _INFINITY_[] = "Infinity";
+   char decimal = localeconv()->decimal_point[0];
+   char *cvtbuf = (char *)alloca (ndigits + 20); /* +3 for sign, dot, null; */
+ 					        /* two extra for rounding */
+@@ -61,7 +61,7 @@
+   if (strncmp (s, "Inf", 3) == 0)
+     {
+       /* SunOS docs says we have return "Infinity" for NDIGITS >= 8.  */
+-      memcpy (buf, INFINITY, ndigits >= 8 ? 9 : 3);
++      memcpy (buf, _INFINITY_, ndigits >= 8 ? 9 : 3);
+       if (ndigits < 8)
+ 	buf[3] = '\0';
+     }
+diff -Naur old/src/libc/compat/stdlib/fcvtbuf.c new/src/libc/compat/stdlib/fcvtbuf.c
+--- old/src/libc/compat/stdlib/fcvtbuf.c	2002-10-16 16:34:29.000000000 +0200
++++ new/src/libc/compat/stdlib/fcvtbuf.c	2025-08-07 12:14:52.854540865 +0200
+@@ -13,7 +13,7 @@
+ char *
+ fcvtbuf (double value, int ndigits, int *decpt, int *sign, char *buf)
+ {
+-  static char INFINITY[] = "Infinity";
++  static char _INFINITY_[] = "Infinity";
+   char decimal = localeconv()->decimal_point[0];
+   int digits = ndigits >= 0 ? ndigits : 0;
+   char *cvtbuf = (char *)alloca (2*DBL_MAX_10_EXP + 16);
+@@ -39,7 +39,7 @@
+      instead of "Inf".  */
+   if (strncmp (s, "Inf", 3) == 0)
+     {
+-      memcpy (buf, INFINITY, ndigits >= 8 ? 9 : 3);
++      memcpy (buf, _INFINITY_, ndigits >= 8 ? 9 : 3);
+       if (ndigits < 8)
+ 	buf[3] = '\0';
+       return buf;

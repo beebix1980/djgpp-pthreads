@@ -1,0 +1,510 @@
+diff -Naur old/src/libc/ansi/locale/setlocal.c new/src/libc/ansi/locale/setlocal.c
+--- old/src/libc/ansi/locale/setlocal.c	2005-03-17 17:55:07.000000000 +0100
++++ new/src/libc/ansi/locale/setlocal.c	2025-01-30 14:39:20.817508507 +0100
+@@ -572,8 +572,11 @@
+           }
+         }
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-truncation"
+         strncpy(lc_current[i], locale, LC_MAXNAMESIZE);
+         lc_current[i][LC_MAXNAMESIZE - 1] = '\0';
++#pragma GCC diagnostic pop
+       }
+     }
+     if (segment != -1)
+diff -Naur old/src/libc/ansi/stdio/doscan.c new/src/libc/ansi/stdio/doscan.c
+--- old/src/libc/ansi/stdio/doscan.c	2015-05-23 07:50:08.000000000 +0200
++++ new/src/libc/ansi/stdio/doscan.c	2025-01-30 14:41:09.674620300 +0100
+@@ -537,7 +537,10 @@
+       ptr = arg_ptr;
+       if (!*ptr)
+       {
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wuse-after-free"
+         free(orig_ptr);
++#pragma GCC diagnostic pop
+         errno = ENOMEM;
+         return 0;
+       }
+diff -Naur old/src/libc/ansi/stdio/rename.c new/src/libc/ansi/stdio/rename.c
+--- old/src/libc/ansi/stdio/rename.c	2003-08-09 11:32:11.000000000 +0200
++++ new/src/libc/ansi/stdio/rename.c	2025-01-30 14:42:56.695713310 +0100
+@@ -135,7 +135,10 @@
+           errno = ENOMEM;
+           return 0;
+         }
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wuse-after-free"
+       pool_end += temp - dirnames_pool;
++#pragma GCC diagnostic pop
+       dirnames_pool = temp;
+     }
+ 
+@@ -153,7 +156,10 @@
+           errno = ENOMEM;
+           return 0;
+         }
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wuse-after-free"
+       stack_top += temp - dirstack;
++#pragma GCC diagnostic pop
+       dirstack = temp;
+     }
+ 
+diff -Naur old/src/libc/ansi/string/strlen.c new/src/libc/ansi/string/strlen.c
+--- old/src/libc/ansi/string/strlen.c	1995-06-13 06:20:48.000000000 +0200
++++ new/src/libc/ansi/string/strlen.c	2025-01-30 14:44:09.388455709 +0100
+@@ -6,7 +6,10 @@
+ {
+   const char *s;
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (str == 0)
++#pragma GCC diagnostic pop
+     return 0;
+   for (s = str; *s; ++s);
+   return s-str;
+diff -Naur old/src/libc/ansi/time/ctime.c new/src/libc/ansi/time/ctime.c
+--- old/src/libc/ansi/time/ctime.c	2014-04-19 20:50:30.000000000 +0200
++++ new/src/libc/ansi/time/ctime.c	2025-01-30 14:45:40.629387528 +0100
+@@ -1559,7 +1559,7 @@
+ char *
+ asctime(const struct tm *timeptr)
+ {
+-  static char result[26];
++  static char result[80];
+ 
+   return asctime_r( timeptr, result);
+ }
+diff -Naur old/src/libc/c99/math/nan.c new/src/libc/c99/math/nan.c
+--- old/src/libc/c99/math/nan.c	2003-10-25 10:22:53.000000000 +0200
++++ new/src/libc/c99/math/nan.c	2025-01-30 14:46:41.750011732 +0100
+@@ -11,7 +11,10 @@
+   char buf[256];
+   ssize_t s;
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (tagp)
++#pragma GCC diagnostic pop
+   {
+     /*
+      * If we can't fit NAN(<tagp>) in the buffer, just return NAN.
+diff -Naur old/src/libc/c99/math/nanf.c new/src/libc/c99/math/nanf.c
+--- old/src/libc/c99/math/nanf.c	2003-10-25 10:22:53.000000000 +0200
++++ new/src/libc/c99/math/nanf.c	2025-01-30 14:47:05.894525617 +0100
+@@ -11,7 +11,10 @@
+   char buf[256];
+   int s;
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (tagp)
++#pragma GCC diagnostic pop
+   {
+     /*
+      * If we can't fit NAN(<tagp>) in the buffer, just return NAN.
+diff -Naur old/src/libc/c99/math/nanl.c new/src/libc/c99/math/nanl.c
+--- old/src/libc/c99/math/nanl.c	2013-03-16 19:00:21.000000000 +0100
++++ new/src/libc/c99/math/nanl.c	2025-01-30 14:47:26.479641133 +0100
+@@ -12,7 +12,10 @@
+   char buf[256];
+   int s;
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (tagp)
++#pragma GCC diagnostic pop
+   {
+     /*
+      * If we can't fit NAN(<tagp>) in the buffer, just return NAN.
+diff -Naur old/src/libc/compat/stdio/tempnam.c new/src/libc/compat/stdio/tempnam.c
+--- old/src/libc/compat/stdio/tempnam.c	2015-05-02 06:32:17.000000000 +0200
++++ new/src/libc/compat/stdio/tempnam.c	2025-01-30 14:52:25.028933529 +0100
+@@ -48,7 +48,10 @@
+   strcpy (template + lastc + 1, pfx);
+ 
+   /* Create the template.  */
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-truncation"
+   strncat (template, x8, 8 - strlen (pfx));
++#pragma GCC diagnostic pop
+ 
+   s = mktemp (template);
+   if (s)
+diff -Naur old/src/libc/compat/string/stpcpy.c new/src/libc/compat/string/stpcpy.c
+--- old/src/libc/compat/string/stpcpy.c	1995-04-19 05:15:30.000000000 +0200
++++ new/src/libc/compat/string/stpcpy.c	2025-01-30 14:53:28.083201262 +0100
+@@ -4,8 +4,11 @@
+ char *
+ stpcpy(char *_dest, const char *_src)
+ {
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (!_dest || !_src)
+     return 0;
++#pragma GCC diagnostic pop
+   while ((*_dest++ = *_src++));
+   return --_dest;
+ }
+diff -Naur old/src/libc/compat/string/stpncpy.c new/src/libc/compat/string/stpncpy.c
+--- old/src/libc/compat/string/stpncpy.c	2000-07-24 14:52:46.000000000 +0200
++++ new/src/libc/compat/string/stpncpy.c	2025-01-30 17:29:48.651913205 +0100
+@@ -4,8 +4,11 @@
+ char *
+ stpncpy(char *dst, const char *src, size_t n)
+ {
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (!dst || !src)
+     return 0;
++#pragma GCC diagnostic pop
+ 
+   if (n != 0) {
+     do {
+diff -Naur old/src/libc/compat/string/strdup.c new/src/libc/compat/string/strdup.c
+--- old/src/libc/compat/string/strdup.c	1995-05-28 07:14:42.000000000 +0200
++++ new/src/libc/compat/string/strdup.c	2025-01-30 17:31:54.838022074 +0100
+@@ -6,8 +6,11 @@
+ strdup(const char *_s)
+ {
+   char *rv;
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (_s == 0)
+     return 0;
++#pragma GCC diagnostic pop
+   rv = (char *)malloc(strlen(_s) + 1);
+   if (rv == 0)
+     return 0;
+diff -Naur old/src/libc/compat/unistd/dirname.c new/src/libc/compat/unistd/dirname.c
+--- old/src/libc/compat/unistd/dirname.c	1998-06-28 20:53:24.000000000 +0200
++++ new/src/libc/compat/unistd/dirname.c	2025-01-30 17:34:31.756642645 +0100
+@@ -49,7 +49,10 @@
+     dirpart = (char *)malloc (dirlen + 1);
+     if (dirpart != NULL)
+     {
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-truncation"
+       strncpy (dirpart, fname, dirlen);
++#pragma GCC diagnostic pop
+       if (slash && *slash == ':' && dirlen == 3)
+ 	dirpart[2] = '.';	/* for "x:foo" return "x:." */
+       dirpart[dirlen] = '\0';
+diff -Naur old/src/libc/crt0/c1args.c new/src/libc/crt0/c1args.c
+--- old/src/libc/crt0/c1args.c	2015-05-02 06:32:19.000000000 +0200
++++ new/src/libc/crt0/c1args.c	2025-02-03 17:35:03.639988874 +0100
+@@ -444,7 +444,10 @@
+     size_t plen = strlen(proxy_v);
+     strncpy(proxy_line, __PROXY, __PROXY_LEN + 1); /* copy " !proxy" */
+     proxy_line[__PROXY_LEN] = ' ';
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-truncation"
+     strncpy(proxy_line + __PROXY_LEN+1, proxy_v, plen+1); /* copy value */
++#pragma GCC diagnostic pop
+     delete_arglist(arglist);
+     arglist = parse_bytes(proxy_line, plen+__PROXY_LEN+1, 0);
+   }
+diff -Naur old/src/libc/crt0/mcount.c new/src/libc/crt0/mcount.c
+--- old/src/libc/crt0/mcount.c	2001-09-02 16:05:21.000000000 +0200
++++ new/src/libc/crt0/mcount.c	2025-01-30 17:41:40.479638896 +0100
+@@ -74,8 +74,11 @@
+   if (&_to < &etext)
+     *(int *)(-1) = 0; /* fault! */
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Warray-bounds"
+   to = *((&_to)-1) - 12;
+   ebp = *((&_to)-2); /* glean the caller's return address from the stack */
++#pragma GCC diagnostic pop
+   from = ((int *)ebp)[1];
+   /* Do nothing if the FROM address is outside the sampling range.  */
+   if (from < h.low || from >= h.high)
+diff -Naur old/src/libc/dos/io/_chmod.c new/src/libc/dos/io/_chmod.c
+--- old/src/libc/dos/io/_chmod.c	2011-10-02 01:39:47.000000000 +0200
++++ new/src/libc/dos/io/_chmod.c	2025-01-30 17:42:52.808808744 +0100
+@@ -23,7 +23,10 @@
+     r.x.ax = 0x4300 + func;
+   _put_path(filename);
+   if (func == 1)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Warray-bounds"
+     r.x.cx = *(&func + 1);		/* Value to set */
++#pragma GCC diagnostic pop
+   r.x.dx = __tb_offset;
+   r.x.ds = __tb_segment;
+   __dpmi_int(0x21, &r);
+diff -Naur old/src/libc/dos/process/dosexec.c new/src/libc/dos/process/dosexec.c
+--- old/src/libc/dos/process/dosexec.c	2015-05-02 06:32:23.000000000 +0200
++++ new/src/libc/dos/process/dosexec.c	2025-01-30 17:47:10.116998176 +0100
+@@ -405,7 +405,7 @@
+ 
+   if ((initial_tbuf_selector != tbuf_selector) && proxy_off)
+   {
+-    char temp[65], *s, t2[5];
++    char temp[65], *s, t2[8];
+     sprintf (t2, "%04lX", tbuf_beg>>4);
+     dosmemget (tbuf_beg+proxy_off, 64, temp);
+     temp[64] = 0;
+@@ -1104,7 +1104,7 @@
+   argv_off += sizeof(short);
+ 
+   argv[0] = save_argv0;
+-  proxy_cmdline = (char *)alloca (34);
++  proxy_cmdline = (char *)alloca (36);
+   
+   sprintf(proxy_cmdline, "%s=%04x %04x %04x %04x %04x",
+     __PROXY, argc,
+@@ -1417,7 +1417,10 @@
+     errno = ENAMETOOLONG;
+     return 0;
+   }
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-truncation"
+   strncpy(buf, program, blen + 1);
++#pragma GCC diagnostic pop
+   rp = buf + blen;
+ 
+   for (ptr=program; *ptr; ptr++)
+diff -Naur old/src/libc/posix/fcntl/open.c new/src/libc/posix/fcntl/open.c
+--- old/src/libc/posix/fcntl/open.c	2014-04-18 15:37:39.000000000 +0200
++++ new/src/libc/posix/fcntl/open.c	2025-01-30 17:48:55.198718489 +0100
+@@ -219,7 +219,10 @@
+   /* DOS doesn't want to see these bits */
+   oflag &= ~(O_TEXT | O_BINARY);
+ 
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Warray-bounds"
+   dmode = (*((&oflag) + 1) & S_IWUSR) ? 0 : 1;
++#pragma GCC diagnostic pop
+ 
+   /* Merge the share flags if they are specified */
+   dont_have_share = ((oflag &
+diff -Naur old/src/libc/posix/string/strndup.c new/src/libc/posix/string/strndup.c
+--- old/src/libc/posix/string/strndup.c	2013-11-14 19:09:00.000000000 +0100
++++ new/src/libc/posix/string/strndup.c	2025-01-30 17:49:44.975534837 +0100
+@@ -5,7 +5,10 @@
+ char *
+ strndup(const char *_s, size_t _n)
+ {
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (_s == NULL)
++#pragma GCC diagnostic pop
+     return NULL;
+   else
+   {
+diff -Naur old/src/libc/posix/string/strnlen.c new/src/libc/posix/string/strnlen.c
+--- old/src/libc/posix/string/strnlen.c	2013-11-14 19:09:04.000000000 +0100
++++ new/src/libc/posix/string/strnlen.c	2025-01-30 17:50:23.688170295 +0100
+@@ -4,7 +4,10 @@
+ size_t
+ strnlen(const char *_str, size_t _n)
+ {
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wnonnull-compare"
+   if (_str == NULL || *_str == '\0' || _n == 0)
++#pragma GCC diagnostic pop
+     return 0;
+   else
+   {
+diff -Naur old/src/libc/posix/termios/ttyscrn.c new/src/libc/posix/termios/ttyscrn.c
+--- old/src/libc/posix/termios/ttyscrn.c	2015-05-02 06:32:32.000000000 +0200
++++ new/src/libc/posix/termios/ttyscrn.c	2025-02-03 17:55:55.591677177 +0100
+@@ -465,7 +465,10 @@
+     if (++(*col) > __tty_screen.max_col)
+     {
+       col = 0;
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Warray-bounds"
+       ++row;
++#pragma GCC diagnostic pop
+     }
+     __tty_screen.set_cursor(*col, *row);
+   }
+diff -Naur old/src/debug/common/dbgcom.c new/src/debug/common/dbgcom.c
+--- old/src/debug/common/dbgcom.c	2015-05-02 06:32:00.000000000 +0200
++++ new/src/debug/common/dbgcom.c	2025-01-30 17:52:21.494106711 +0100
+@@ -1338,13 +1338,13 @@
+     ("										\n\
+       movw  %2,%%ax								\n\
+       verr  %%ax								\n\
+-      jnz   .Ldoes_not_has_read_right						\n\
++      jnz   0f									\n\
+       movb  $1,%0								\n\
+-.Ldoes_not_has_read_right:							\n\
++0:										\n\
+       verw  %%ax								\n\
+-      jnz   .Ldoes_not_has_write_right						\n\
++      jnz   1f									\n\
+       movb  $1,%1								\n\
+-.Ldoes_not_has_write_right: "
++1: "
+      : "=qm" (read_allowed), "=qm" (write_allowed)
+      : "g" (sel)
+      );
+diff -Naur old/src/libemu/src/emu387.cc new/src/libemu/src/emu387.cc
+--- old/src/libemu/src/emu387.cc	2015-05-02 06:32:33.000000000 +0200
++++ new/src/libemu/src/emu387.cc	2025-01-30 18:07:56.501552226 +0100
+@@ -2092,7 +2092,7 @@
+   st() = rv;
+ 
+   top--;
+-  register int qq = q & 3;
++  register int qq asm("eax") = q & 3;
+   if ((qq == 1) || (qq == 2))
+     rvc.sign ^= SIGN_POS ^ SIGN_NEG;
+   st() = rvc;
+@@ -2523,7 +2523,7 @@
+     rv = tmp;
+   }
+   setcc(0);
+-  register int qq = q & 3;
++  register int qq asm("eax") = q & 3;
+   if ((qq == 1) || (qq == 2))
+     rv.sign ^= SIGN_POS ^ SIGN_NEG;
+   st() = rv;
+diff -Naur old/src/libm/math/k_rem_pio2.c new/src/libm/math/k_rem_pio2.c
+--- old/src/libm/math/k_rem_pio2.c	1997-04-15 07:39:48.000000000 +0200
++++ new/src/libm/math/k_rem_pio2.c	2025-01-30 18:10:59.968590255 +0100
+@@ -171,6 +171,8 @@
+ {
+ 	__int32_t jz,jx,jv,jp,jk,carry,n,iq[20],i,j,k,m,q0,ih;
+ 	double z,fw,f[20],fq[20],q[20];
++	
++	fq[0] = 0;
+ 
+     /* initialize jk*/
+ 	jk = init_jk[prec];
+@@ -187,7 +189,8 @@
+ 
+     /* compute q[0],q[1],...q[jk] */
+ 	for (i=0;i<=jk;i++) {
+-	    for(j=0,fw=0.0;j<=jx;j++) fw += x[j]*f[jx+i-j]; q[i] = fw;
++	    for(j=0,fw=0.0;j<=jx;j++) fw += x[j]*f[jx+i-j];
++	    q[i] = fw;
+ 	}
+ 
+ 	jz = jk;
+diff -Naur old/src/libm/math/e_asin.c new/src/libm/math/e_asin.c
+--- old/src/libm/math/e_asin.c	1998-02-07 12:18:28.000000000 +0100
++++ new/src/libm/math/e_asin.c	2025-01-30 18:12:08.877714025 +0100
+@@ -91,10 +91,10 @@
+ 		if(huge+x>one) return x;/* return x with inexact if x!=0*/
+ 	    } else 
+ 		t = x*x;
+-		p = t*(pS0+t*(pS1+t*(pS2+t*(pS3+t*(pS4+t*pS5)))));
+-		q = one+t*(qS1+t*(qS2+t*(qS3+t*qS4)));
+-		w = p/q;
+-		return x+x*w;
++	  p = t*(pS0+t*(pS1+t*(pS2+t*(pS3+t*(pS4+t*pS5)))));
++	  q = one+t*(qS1+t*(qS2+t*(qS3+t*qS4)));
++	  w = p/q;
++	  return x+x*w;
+ 	}
+ 	/* 1> |x|>= 0.5 */
+ 	w = one-fabs(x);
+diff -Naur old/src/libm/math/sf_scalbn.c new/src/libm/math/sf_scalbn.c
+--- old/src/libm/math/sf_scalbn.c	1998-10-04 09:48:42.000000000 +0200
++++ new/src/libm/math/sf_scalbn.c	2025-01-30 18:16:58.218296348 +0100
+@@ -29,7 +29,7 @@
+ #endif
+ two25   =  3.355443200e+07,	/* 0x4c000000 */
+ twom25  =  2.9802322388e-08,	/* 0x33000000 */
+-huge   = 1.0e+30,
++/*huge   = 1.0e+30,*/
+ tiny   = 1.0e-30;
+ 
+ #ifdef __STDC__
+diff -Naur old/src/libm/math/s_scalbn.c new/src/libm/math/s_scalbn.c
+--- old/src/libm/math/s_scalbn.c	1998-10-04 09:48:42.000000000 +0200
++++ new/src/libm/math/s_scalbn.c	2025-01-30 18:13:12.382711112 +0100
+@@ -66,7 +66,7 @@
+ #endif
+ two54   =  1.80143985094819840000e+16, /* 0x43500000, 0x00000000 */
+ twom54  =  5.55111512312578270212e-17, /* 0x3C900000, 0x00000000 */
+-huge   = 1.0e+300,
++/*huge   = 1.0e+300,*/
+ tiny   = 1.0e-300;
+ 
+ #ifdef __STDC__
+diff -Naur old/src/libm/math/kf_rem_pio2.c new/src/libm/math/kf_rem_pio2.c
+--- old/src/libm/math/kf_rem_pio2.c	1997-04-15 07:39:48.000000000 +0200
++++ new/src/libm/math/kf_rem_pio2.c	2025-01-30 18:14:17.519739402 +0100
+@@ -62,6 +62,8 @@
+ 	__int32_t jz,jx,jv,jp,jk,carry,n,iq[20],i,j,k,m,q0,ih;
+ 	float z,fw,f[20],fq[20],q[20];
+ 
++	fq[0] = 0;
++
+     /* initialize jk*/
+ 	jk = init_jk[prec];
+ 	jp = jk;
+@@ -77,7 +79,8 @@
+ 
+     /* compute q[0],q[1],...q[jk] */
+ 	for (i=0;i<=jk;i++) {
+-	    for(j=0,fw=0.0;j<=jx;j++) fw += x[j]*f[jx+i-j]; q[i] = fw;
++	    for(j=0,fw=0.0;j<=jx;j++) fw += x[j]*f[jx+i-j];
++	    q[i] = fw;
+ 	}
+ 
+ 	jz = jk;
+diff -Naur old/src/libm/math/ef_asin.c new/src/libm/math/ef_asin.c
+--- old/src/libm/math/ef_asin.c	1998-02-07 13:13:26.000000000 +0100
++++ new/src/libm/math/ef_asin.c	2025-01-30 18:15:15.248654924 +0100
+@@ -58,10 +58,10 @@
+ 		if(huge+x>one) return x;/* return x with inexact if x!=0*/
+ 	    } else 
+ 		t = x*x;
+-		p = t*(pS0+t*(pS1+t*(pS2+t*(pS3+t*(pS4+t*pS5)))));
+-		q = one+t*(qS1+t*(qS2+t*(qS3+t*qS4)));
+-		w = p/q;
+-		return x+x*w;
++	  p = t*(pS0+t*(pS1+t*(pS2+t*(pS3+t*(pS4+t*pS5)))));
++	  q = one+t*(qS1+t*(qS2+t*(qS3+t*qS4)));
++	  w = p/q;
++	  return x+x*w;
+ 	}
+ 	/* 1> |x|>= 0.5 */
+ 	w = one-fabsf(x);
+diff -Naur old/src/libm/math/ef_jn.c new/src/libm/math/ef_jn.c
+--- old/src/libm/math/ef_jn.c	2002-03-16 12:32:53.000000000 +0100
++++ new/src/libm/math/ef_jn.c	2025-01-30 18:15:46.765156243 +0100
+@@ -20,7 +20,7 @@
+ #else
+ static float
+ #endif
+-invsqrtpi=  5.6418961287e-01, /* 0x3f106ebb */
++/*invsqrtpi=  5.6418961287e-01,*/ /* 0x3f106ebb */
+ two   =  2.0000000000e+00, /* 0x40000000 */
+ one   =  1.0000000000e+00; /* 0x3F800000 */
+ 
+diff -Naur old/src/libm/math/sf_cos.c new/src/libm/math/sf_cos.c
+--- old/src/libm/math/sf_cos.c	1997-04-15 07:39:52.000000000 +0200
++++ new/src/libm/math/sf_cos.c	2025-01-30 18:16:24.197752932 +0100
+@@ -16,7 +16,7 @@
+ #include "fdlibm.h"
+ 
+ #ifdef __STDC__
+-static const float one=1.0;
++/*static const float one=1.0;*/
+ #else
+ static float one=1.0;
+ #endif
+diff -Naur old/src/libc/posix/glob/glob.c new/src/libc/posix/glob/glob.c
+--- old/src/libc/posix/glob/glob.c	2015-05-02 06:32:27.000000000 +0200
++++ new/src/libc/posix/glob/glob.c	2025-03-16 21:57:02.436621746 +0100
+@@ -281,7 +281,10 @@
+   my_pattern = (char *)alloca(pslash - pp + 1);
+   if (my_pattern == 0)
+     return GLOB_NOSPACE;
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-truncation"
+   strncpy(my_pattern, pp, pslash - pp);
++#pragma GCC diagnostic pop
+   my_pattern[pslash-pp] = 0;
+ 
+ /*  printf("glob2: `%s' `%s'\n", pathbuf, my_pattern); */

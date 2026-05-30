@@ -1,0 +1,228 @@
+#
+# This distribution is a modified version of DJGPP v2.05
+# The official/original DJGPP can be found at https://delorie.com/djgpp/
+# 
+
+Build script for a DJGPP cross-compiler with POSIX threads (and std::thread)
+Copyright (C) 2026 by Alexander Bruines <alexander.bruines@gmail.com>
+
+This entire distribution, including any scripts and patches used to build it,
+are distributed under the terms described in the file COPYING.DJ.
+
+COPYING.DJ should be in the same directory as this file but can also be found
+at: https://www.delorie.com/djgpp/dl/ofc/simtel/v2/copying.dj
+
+
+Introduction:
+-------------
+
+These scripts and patches attempt to build a GNU/Linux to DJGPP/DOS
+cross-compiler with POSIX threads and working std::thread.
+
+This is the README file for the modifications made to DJGPP v2.05 and
+GNU BINUTILS, GCC and Portable Thread Library.
+
+
+NOTICE: All applications produced with this unofficial DJGPP release must
+        -if distributed- comply with the GNU General Public License version 2.
+        The reason for this is that applications are statically linked to a
+        modified DJGPP runtime (and other GPL'ed libraries).
+
+
+New in this version:
+--------------------
+
+Replaced the build scripts with a CMake project instead of using handwritten
+makefiles. The cross-compiler is now built in three (hopefully) proper stages.
+
+
+Build requirements:
+-------------------
+
+On Debian based distros the following packages are required:
+
+   cmake ninja-build bison patch sed flex gcc g++ tar texinfo
+   zlib1g-dev unzip zip zstd pigz libgmp-dev libmpfr-dev libmpc-dev
+
+If building with -DHAVE_WATT32=ON then the following are also needed:
+
+   nasm libslang2-dev
+
+The required source tarballs are downloaded automatically by the cmake script.
+
+Note that these script are meant to run on modern (64bit) Linux, they also
+have not been tested with MSYS or such on Windows (and never will be by me).
+
+
+POSIX threads support:
+----------------------
+
+The pthread library used by this build of DJGPP is GNU Pth 2.0.7.
+GCC is modified to use the pthread library and the -pthread command-line
+option to GCC is enabled for use with DJGPP. This option defines the _REENTRANT
+macro and enables automatic linking with the GNU Portable Thread (and external
+sockets) library.
+
+
+Watt32 Sockets library:
+-----------------------
+
+Compiling the pthread library requires a sockets implementation.
+I have only made sure that this code builds cleanly and can be integrated
+into this build of DJGPP.
+
+This means that I have not tested any of the functionality this library
+provides. If you want a DJGPP that includes this library then use
+-DHAVE_WATT32=ON when configuring the build.
+
+
+PthSock library (dummy sockets library):
+----------------------------------------
+
+This is a sockets library that I've written just to provide the minimum
+required for building the GNU Portable Thread library without needing Watt32.
+It does not provide any actual functionality.
+
+I prefer this since I have no need for a sockets library (yet).
+The source code is included in the 'patches' directory.
+
+
+Building the DJGPP cross-compiler:
+----------------------------------
+
+The DJGPP cross-compiler is built in three stages.
+
+- Stage 1: The regular DJGPP (ie. using the DJCRX205.ZIP package) for C only.
+
+- Stage 2: Intermediate DJGPP that uses the patched DJLSR205.ZIP/PTH207S.ZIP
+           but can still only compile C code but supports pthreads.
+
+- Stage 3: The final build of DJGPP is build with a libc/libpthread/libsocket
+           compiled by a compiler that uses that same set of libraries and
+           headers (ie. stage 2) and supports pthreads.
+           This time all the compilers are build (c,c++,objc,obj-c++,fortran).
+
+Running the included 'build-djgpp-i586.sh' script is the same as:
+
+   cmake -G Ninja -S . -B ./build-i586 -DDJGPP_MARCH=i586 -DDJGPP_TUNE=i586 \
+      -DCMAKE_INSTALL_PREFIX=/usr/local && cmake --build ./build-i586
+
+After building DJGPP it can be installed to CMAKE_INSTALL_PREFIX with:
+
+   [sudo] cmake --install ./build-i586
+
+The top if the CMakeLists.txt file describes all available configuration
+options.
+
+
+Multiple flavours:
+------------------
+
+The default build produces .EXE files that require and are optimized for
+Pentium processors. You can also install a Pentium Pro and/or Pentium II
+optimized build on top (or instead) of the i586 version.
+
+To configure for another CPU use the -DDJGPP_MARCH=i?86 when configuring.
+
+
+Building Multi Threaded DJGPP applications:
+-------------------------------------------
+
+To enable POSIX threads simply specify -pthread as one of the command-line
+arguments passed to GCC. This applies to both compiling and linking.
+
+Passing the -pthread option to GCC causes it to define the _REENTRANT macro
+which is used by the DJGPP header files to detect if POSIX threads are enabled.
+
+Specifying the -pthread option during linking will cause the pthread and sockets
+libraries to be automatically included.
+
+The Autoconf 'AX_PTHREAD' macro should work with DJGPP based projects that use
+pthreads and is available at:
+
+	http://www.gnu.org/software/autoconf-archive/ax_pthread.html
+
+An example toolchain file for using the DJGPP cross-compiler with (your) CMake
+based projects is akso available, see 'djgpp_toolchain.cmake' in this directory.
+
+
+Caveat
+------
+
+There are a couple of caveats that apply to the GNU Portable Threads library.
+
+The most important one is that it implements Cooperative Multi Threading
+meaning that all thread switching is explicit and done in software using long
+jumps at specific points in your code (ie. where you call a pthread or MT-aware
+function).
+
+Also the state of the FPU is not saved/restored when switching threads.
+
+One more thing to note is that the pthread.h header file uses macros to redirect
+some libc/libsocket calls to pthread aware versions of those functions.
+
+These macros prepend the text '__pthread_' to function calls like fork(),
+sleep(), connect(), select() and others.
+
+The above also means that if you use any of those names in your pthread enabled
+code they will also be prepended with '__pthread_'. This is not a real problem
+but may cause some confusion when debugging, or an actual issue when mixing code
+compiled with and without specifying the -pthread option to GCC or when a source
+file somehow doesn't include pthread.h and can't find a function that had its
+name modified in this manner.
+
+
+Modifications and patches:
+--------------------------
+
+This is just a short description of the most important modifications made to
+each package. To see all modification please examine the build scripts and
+individual patch files.
+
+Note that allthough these patches may produce a functional cross-compiler
+there are certainly a lot of missing/broken features. If you find any and
+know how to fix it, then please contribute your patch.
+
+
+ - binutils : Modified the section alignment for the coff-go32 and coff-go32-exe
+              file formats from 16 to 64 bytes.
+
+ - gcc      : Apply patches made by comparing the official DJGPP released GCC
+              (14.2.0) sources with the original GCC sources.
+
+            : Change the maximum alignas() value from 16 to 64 bytes.
+
+            : Fix-ups to get POSIX threads to compile/work.
+
+            : Add the -pthread option for DJGPP.
+
+ - DJ???205 : Modify crt0/crt1 for using std::thread and friends.
+
+            : Fix-ups for building GCC with POSIX threads enabled.
+
+ - Watt32   : Patch the header files for inclusion in DJGPP include directory.
+
+            : Fix-ups for compilation issues.
+
+ - PTh207s  : Fix-ups for compilation issues.
+ 
+
+Version History:
+----------------
+
+v1.0	- Initial public release
+
+v1.1	- Updated BINUTILS to version 2.45.1
+	- Updated GCC to version 15.2.0
+	- Added the ability to configure the build for either the
+	  i586-pc-msdosdjgpp, i686-pc-msdosdjgpp or i786-pc-msdosdjgpp target,
+	  where each is optimized for respectivly; pentium, pentium pro or
+	  any other CPU supported by GCC, see djgpp-builder.cfg
+	  (All three can be installed on top of each other on your system.)
+	- Added a means to cross-build the compiler for Raspberry Pi OS.
+	- Fixed an issue where the script would fail by explcitly synchronizing
+	  the filesystem before unmounting the buildroot image file.
+
+v2.0    - New build script using CMake.
+        - Updated BINUTILS to version 2.46.0
+        - Updated the libsocket dummy to version 1.1

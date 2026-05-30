@@ -1,0 +1,20 @@
+diff -Naur old/src/dxe/dxe3gen.c new/src/dxe/dxe3gen.c
+--- old/src/dxe/dxe3gen.c	2015-10-18 08:02:38.000000000 +0200
++++ new/src/dxe/dxe3gen.c	2025-08-07 12:53:37.857069187 +0200
+@@ -732,6 +732,8 @@
+               /* If it is a CIE, read the augmentation string */
+               struct dwarf_cie cie;
+               fread(&cie, sizeof(cie), 1, f);
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Warray-bounds"
+               if (IS_VALID_CIE(cie.CIE_id) && !IS_zR_AUGMENTATION(cie.augmentation))
+               {
+                 /*
+@@ -744,6 +746,7 @@
+                 found_zR_augmentation = FALSE;
+                 break;
+               }
++#pragma GCC diagnostic pop
+             }
+           }
+         }

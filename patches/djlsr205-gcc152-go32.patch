@@ -1,0 +1,25 @@
+diff -Naur old/src/libc/go32/dpmiexcp.c new/src/libc/go32/dpmiexcp.c
+--- old/src/libc/go32/dpmiexcp.c	2003-09-09 11:24:36.000000000 +0200
++++ new/src/libc/go32/dpmiexcp.c	2025-12-04 09:33:26.992978557 +0100
+@@ -250,7 +250,10 @@
+   }
+   if (except_to_sig(signum) == SIGFPE)
+   {
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
+     err(", x87 status="); itox(_status87(), 4);
++#pragma GCC diagnostic pop
+   }
+   err("\r\neax="); itox(__djgpp_exception_state->__eax, 8);
+   err(" ebx="); itox(__djgpp_exception_state->__ebx, 8);
+@@ -657,7 +660,10 @@
+      seems to prevent this, at least in some cases.  We only do that if a
+      coprocessor is actually present.  */
+   if (_8087)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wimplicit-function-declaration"
+     _clear87();
++#pragma GCC diagnostic pop
+   /* We need to restore hardware interrupt handlers even if somebody calls
+      `_exit' directly, or else we crash the machine in nested programs.
+      We only toggle the handlers if the original keyboard handler is intact
